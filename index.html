@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XDEVS | Professional Services</title>
+    <title>XDEVS | Pricelist</title>
     <link rel="icon" type="image/png" href="avatar.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
 
     <script>
@@ -18,12 +16,6 @@
                     fontFamily: {
                         sans: ['Space Grotesk', 'sans-serif'],
                         heading: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            500: '#00e5ff',
-                            600: '#00b8cc',
-                        }
                     }
                 }
             }
@@ -32,7 +24,7 @@
 
     <style>
         html { scroll-behavior: smooth; }
-        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        body { background-color: #050505; color: #ffffff; overflow-x: hidden; }
         
         #particles-canvas {
             position: fixed;
@@ -45,61 +37,78 @@
         }
 
         .glass-card {
-            background: rgba(20, 20, 20, 0.6);
+            background: rgba(20, 20, 20, 0.4);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         
         .glass-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(0, 229, 255, 0.4);
-            box-shadow: 0 10px 30px -10px rgba(0, 229, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.15);
         }
 
-        .text-glow { text-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
+        .text-glow { text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
         
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00e5ff; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
+
+        #toast {
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(20px) translateX(-50%);
+            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0) translateX(-50%);
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-brand-500 selection:text-black">
+<body class="antialiased selection:bg-white selection:text-black">
 
     <canvas id="particles-canvas"></canvas>
 
-    <nav class="fixed w-full z-50 glass-card border-x-0 border-t-0 border-b border-white/10 px-6 py-4">
+    <div id="toast" class="fixed bottom-10 left-1/2 z-[100] glass-card px-6 py-3 rounded-full flex items-center gap-3 border-white/20">
+        <i class="fas fa-check-circle text-white"></i>
+        <span class="font-bold text-sm tracking-wide">Discord Username Copied!</span>
+    </div>
+
+    <nav class="fixed w-full z-50 glass-card border-x-0 border-t-0 border-b border-white/5 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-2">
+            <a href="#" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-3">
                 <img src="avatar.png" alt="Logo" class="w-8 h-8 rounded-full border border-white/20" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                <i class="fas fa-code text-brand-500 hidden"></i>
-                XDEVS<span class="text-brand-500">.</span>
+                <i class="fas fa-code text-white hidden"></i>
+                XDEVS<span class="text-gray-500">.</span>
             </a>
-            <div class="hidden md:flex gap-6 text-sm font-semibold tracking-widest uppercase">
-                <a href="#web" class="hover:text-brand-500 transition-colors">Web</a>
-                <a href="#servers" class="hover:text-brand-500 transition-colors">Servers</a>
-                <a href="#bots" class="hover:text-brand-500 transition-colors">Bots</a>
-                <a href="#payment" class="hover:text-brand-500 transition-colors">Payment</a>
+            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-widest uppercase text-gray-400">
+                <a href="#web" class="hover:text-white transition-colors">Web</a>
+                <a href="#servers" class="hover:text-white transition-colors">Servers</a>
+                <a href="#bots" class="hover:text-white transition-colors">Bots</a>
+                <a href="#payment" class="hover:text-white transition-colors">Payment</a>
             </div>
-            <a href="#socials" class="bg-white text-black px-5 py-2 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-brand-500 transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(0,229,255,0.6)]">
+            <button onclick="copyDiscord()" class="bg-white text-black px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-gray-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]">
                 Contact Me
-            </a>
+            </button>
         </div>
     </nav>
 
     <header class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative pt-20">
-        <div class="glass-card px-4 py-1 rounded-full text-xs font-bold uppercase tracking-[0.2em] text-brand-500 mb-6 border-brand-500/30">
-            Professional Services
+        <div class="glass-card px-5 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] text-gray-300 mb-8 border-white/10">
+            Professional Middle Full-Stack Services
         </div>
-        <h1 class="text-5xl md:text-7xl font-heading font-black uppercase tracking-tighter mb-4 text-glow leading-tight">
-            Elevate Your <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-blue-600">Digital Presence</span>
+        <h1 class="text-5xl md:text-8xl font-heading font-black uppercase tracking-tighter mb-6 text-glow leading-tight">
+            Elevate Your <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600">Digital Presence</span>
         </h1>
-        <p class="text-gray-400 max-w-2xl text-sm md:text-base mb-10 leading-relaxed">
-            All the information needed for clients and their projects. From custom web development to advanced Discord architecture and bot engineering.
+        <p class="text-gray-400 max-w-2xl text-sm md:text-base mb-12 leading-relaxed">
+            High-quality development solutions. From robust custom web applications to advanced Discord architecture and sophisticated bot engineering. 
         </p>
-        <a href="#web" class="animate-bounce w-12 h-12 rounded-full glass-card flex items-center justify-center text-brand-500 hover:text-white transition-colors cursor-pointer">
+        <a href="#web" class="animate-bounce w-14 h-14 rounded-full glass-card flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors cursor-pointer border-white/20">
             <i class="fas fa-chevron-down"></i>
         </a>
     </header>
@@ -107,120 +116,116 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-32">
 
         <section id="web" class="scroll-mt-24">
-            <h2 class="text-3xl font-heading font-black uppercase tracking-tight border-b border-white/10 pb-4 mb-8">
-                <i class="fas fa-globe text-brand-500 mr-3"></i> I. Website Development
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-globe"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">I. Website Development</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
-                    <h3 class="text-lg font-bold mb-2">Online Constructors</h3>
-                    <p class="text-gray-400 text-sm flex-grow mb-6">Basic site creation using standard online builders.</p>
-                    <div class="mt-auto">
-                        <p class="text-2xl font-black text-brand-500">99.99 UAH <span class="text-sm text-gray-500 font-normal">/ 2.99 USD</span></p>
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Constructors</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6 leading-relaxed">Fast site creation using standard online builders (Wix, Tilda). Ideal for portfolios and simple landing pages.</p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <p class="text-2xl font-black text-white">799 UAH <span class="text-sm text-gray-500 font-normal">/ 19.99 USD</span></p>
                     </div>
                 </div>
-                <div class="glass-card p-8 rounded-2xl flex flex-col h-full relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-brand-500 text-black text-[10px] font-black uppercase px-3 py-1 rounded-bl-lg tracking-wider">Popular</div>
-                    <h3 class="text-lg font-bold mb-2">Constructors + HTML</h3>
-                    <p class="text-gray-400 text-sm flex-grow mb-6">Enhanced builder sites with custom HTML code injections.</p>
-                    <div class="mt-auto">
-                        <p class="text-2xl font-black text-brand-500">149.99 UAH <span class="text-sm text-gray-500 font-normal">/ 3.99 USD</span></p>
+                <div class="glass-card p-8 rounded-2xl flex flex-col h-full relative overflow-hidden border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                    <div class="absolute top-0 right-0 bg-white text-black text-[10px] font-black uppercase px-4 py-1.5 rounded-bl-lg tracking-wider">Most Popular</div>
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Constructors + HTML</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6 leading-relaxed">Enhanced builder sites with custom HTML/CSS/JS injections for unique design elements and interactive widgets.</p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <p class="text-2xl font-black text-white">1599 UAH <span class="text-sm text-gray-500 font-normal">/ 39.99 USD</span></p>
                     </div>
                 </div>
-                <div class="glass-card p-8 rounded-2xl flex flex-col h-full border-brand-500/30">
-                    <h3 class="text-lg font-bold mb-2">Custom Code</h3>
-                    <p class="text-gray-400 text-sm flex-grow mb-6">Built from scratch using pure HTML / CSS / JS.</p>
-                    <div class="mt-auto">
-                        <p class="text-2xl font-black text-brand-500">199.99 UAH <span class="text-sm text-gray-500 font-normal">/ 4.99 USD</span></p>
+                <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Custom Code</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6 leading-relaxed">Built from scratch. High performance and total freedom in logic. For serious web apps and unique requirements.</p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <p class="text-xs uppercase tracking-widest text-gray-500 mb-1">Starting at</p>
+                        <p class="text-2xl font-black text-white">3999 UAH <span class="text-sm text-gray-500 font-normal">/ 99.99 USD</span></p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="servers" class="scroll-mt-24">
-            <h2 class="text-3xl font-heading font-black uppercase tracking-tight border-b border-white/10 pb-4 mb-8">
-                <i class="fab fa-discord text-brand-500 mr-3"></i> II. Discord Server Dev
-            </h2>
-            <div class="bg-brand-500/10 border border-brand-500/20 rounded-2xl p-6 mb-8 text-sm text-brand-100 flex items-start gap-4">
-                <i class="fas fa-info-circle text-brand-500 mt-1"></i>
-                <p>Configuration of official and public bots (JuniperBot, MEE6, ProBot, Carlbot, Akemi, etc.) is <strong>absolutely FREE</strong>. Design (channels, categories, roles, banners) and setup of permissions are also <strong>FREE</strong>.</p>
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fab fa-discord"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">II. Discord Server Architecture</h2>
             </div>
+
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8 text-sm text-gray-300 flex items-start gap-4">
+                <i class="fas fa-info-circle text-white mt-1 text-lg"></i>
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-1">Architecture & Roles</h4>
+                    <p>Configuration of public bots and full structural design (channels, roles, permissions) are included by default in these packages.</p>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="glass-card p-8 rounded-2xl">
-                    <h3 class="text-xl font-bold mb-4">Server Creation from Scratch</h3>
-                    <p class="text-gray-400 text-sm mb-6">Full or partial development starting from an empty server to a fully functional community hub.</p>
-                    <p class="text-3xl font-black text-brand-500">329.99 UAH <span class="text-lg text-gray-500 font-normal">/ 7.99 USD</span></p>
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Creation from Scratch</h3>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Full development from an empty server to a functional, secure community hub with onboarding and aesthetic layouts.</p>
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="text-3xl font-black text-white">999 UAH <span class="text-lg text-gray-500 font-normal">/ 24.99 USD</span></p>
+                    </div>
                 </div>
                 <div class="glass-card p-8 rounded-2xl">
-                    <h3 class="text-xl font-bold mb-4">Redevelopment</h3>
-                    <p class="text-gray-400 text-sm mb-6">Full or partial restructuring and improvement of an already existing Discord server.</p>
-                    <p class="text-3xl font-black text-brand-500">214.99 UAH <span class="text-lg text-gray-500 font-normal">/ 5.99 USD</span></p>
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Redevelopment</h3>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Restructuring of an existing server. Cleaning permissions, updating bots, and revitalizing community structures.</p>
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="text-3xl font-black text-white">599 UAH <span class="text-lg text-gray-500 font-normal">/ 14.99 USD</span></p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="bots" class="scroll-mt-24">
-            <h2 class="text-3xl font-heading font-black uppercase tracking-tight border-b border-white/10 pb-4 mb-8">
-                <i class="fas fa-robot text-brand-500 mr-3"></i> III. Bot Development
-            </h2>
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-robot"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">III. Bot Engineering</h2>
+            </div>
             
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-l-white">
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm">Free Consultations</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        I offer up to <span class="text-white font-bold">3 FREE consultations</span> per project to define TZ and architecture.
+                    </p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm">Extended Support</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Starting from the 4th session, a rate of <span class="text-white font-bold">299 UAH / session</span> applies if the project is not yet active.
+                    </p>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-ghost text-gray-400"></i> BotGhost (External Platform)</h3>
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-ghost text-gray-400"></i> BotGhost Framework</h3>
                     <div class="space-y-3">
-                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">Only Bot (Basic)</span>
-                            <span class="text-brand-500 font-mono">39.99 UAH / 0.99 USD</span>
+                        <div class="glass-card p-4 rounded-xl flex justify-between items-center border-l-2 border-l-white">
+                            <span class="text-sm font-bold uppercase tracking-wide">Base Setup</span>
+                            <span class="text-white font-mono font-bold">149 UAH / 3.99 USD</span>
                         </div>
-                        <div class="pl-4 border-l border-white/10 space-y-3">
-                            <div class="flex justify-between items-center text-sm"><span class="text-gray-400">+ Template: Defend</span><span class="font-mono text-xs">+79.99 UAH</span></div>
-                            <div class="flex justify-between items-center text-sm"><span class="text-gray-400">+ Template: Economy/Mini-games</span><span class="font-mono text-xs">+39.99 UAH</span></div>
-                        </div>
-                        
-                        <div class="pt-4 space-y-2">
-                            <div class="flex justify-between items-center text-sm glass-card p-3 rounded-lg"><span class="text-gray-300">Featured & Favourited</span><span class="text-brand-500 font-bold text-xs uppercase">Free</span></div>
-                            <div class="flex justify-between items-center text-sm glass-card p-3 rounded-lg"><span class="text-gray-300">Server Management</span><span class="font-mono text-xs text-gray-400">19.99 UAH / 0.49 USD</span></div>
-                            <div class="flex justify-between items-center text-sm glass-card p-3 rounded-lg"><span class="text-gray-300">Message Functions</span><span class="font-mono text-xs text-gray-400">19.99 UAH / 0.49 USD</span></div>
-                            <div class="flex justify-between items-center text-sm glass-card p-3 rounded-lg"><span class="text-gray-300">AI / Game / Social / Fun / Utils</span><span class="font-mono text-xs text-gray-400">29.99 UAH ea.</span></div>
+                        <div class="glass-card p-4 rounded-xl flex justify-between items-center text-gray-400">
+                            <span class="text-sm italic">Additional Modules</span>
+                            <span class="font-mono text-xs">from 49 UAH</span>
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-terminal text-gray-400"></i> Pure Code Development</h3>
-                    
-                    <div class="glass-card bg-white/5 p-5 rounded-xl mb-4 border-l-4 border-l-brand-500">
-                        <h4 class="font-bold text-sm text-brand-500 mb-1">Free Architectural & Initial Commitment</h4>
-                        <p class="text-xs text-gray-400 mb-2">Initial Project Analysis (30-min consultation) and Technical Consulting (15-min check-in) are absolutely FREE.</p>
-                    </div>
-
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-terminal text-gray-400"></i> Pure Code (Node.js / Py)</h3>
                     <div class="space-y-3">
                         <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">Core Bot Framework (MVP)</span>
-                            <span class="text-brand-500 font-mono text-xs">from 24.99 UAH</span>
+                            <span class="text-sm font-bold">Base Bot (MVP)</span>
+                            <span class="text-white font-mono text-xs">from 799 UAH / 19.99$</span>
                         </div>
                         <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">Data Processing Module</span>
-                            <span class="text-brand-500 font-mono text-xs">from 99.99 UAH</span>
-                        </div>
-                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">External API Integration</span>
-                            <span class="text-brand-500 font-mono text-xs">from 259.99 UAH</span>
-                        </div>
-                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">Refactoring & Optimization</span>
-                            <span class="text-brand-500 font-mono text-xs">99.99 UAH / hr</span>
-                        </div>
-                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">CI/CD Pipeline Setup</span>
-                            <span class="text-brand-500 font-mono text-xs">99.99 UAH</span>
-                        </div>
-                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">Handover & Documentation</span>
-                            <span class="text-brand-500 font-mono text-xs">72.99 UAH</span>
-                        </div>
-                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
-                            <span class="text-sm font-bold">Dedicated Support (SLA)</span>
-                            <span class="text-brand-500 font-mono text-xs">199.99 UAH / mo</span>
+                            <span class="text-sm font-bold">API & DB Systems</span>
+                            <span class="text-white font-mono text-xs">from 1499 UAH / 39.99$</span>
                         </div>
                     </div>
                 </div>
@@ -228,81 +233,83 @@
         </section>
 
         <section id="payment" class="scroll-mt-24">
-            <h2 class="text-3xl font-heading font-black uppercase tracking-tight border-b border-white/10 pb-4 mb-8">
-                <i class="fas fa-wallet text-brand-500 mr-3"></i> Payment Methods
-            </h2>
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-wallet"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">IV. Payment Methods</h2>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="glass-card p-6 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <i class="fab fa-discord text-2xl mb-2 text-[#5865F2]"></i>
-                        <h4 class="font-bold">Discord Server Boost</h4>
-                    </div>
-                    <span class="font-mono text-brand-500">209.99 UAH</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fas fa-credit-card text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Direct</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">Mastercard<br>Crypto (USDT/BTC)</p>
                 </div>
-                <div class="glass-card p-6 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <i class="fab fa-discord text-2xl mb-2 text-[#5865F2]"></i>
-                        <h4 class="font-bold">Discord Full Nitro</h4>
-                    </div>
-                    <span class="font-mono text-brand-500">419.99 UAH</span>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fab fa-discord text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Discord Nitro</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">Basic (~120 UAH)<br>Full (~400 UAH)</p>
                 </div>
-                <div class="glass-card p-6 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <i class="fab fa-discord text-2xl mb-2 text-[#5865F2]"></i>
-                        <h4 class="font-bold">Discord Basic Nitro</h4>
-                    </div>
-                    <span class="font-mono text-brand-500">124.99 UAH</span>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fas fa-rocket text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Server Boosts</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">XDEVS Forum<br>2 Boosts = ~200 UAH</p>
                 </div>
-                <div class="glass-card p-6 rounded-2xl flex items-center justify-between">
-                    <div>
-                        <i class="fas fa-credit-card text-2xl mb-2 text-gray-300"></i>
-                        <h4 class="font-bold">Bank Card / Crypto</h4>
-                    </div>
-                    <span class="text-xs uppercase tracking-wider text-gray-400">Direct Payment</span>
-                </div>
-                <div class="glass-card p-6 rounded-2xl flex items-center justify-between md:col-span-2">
-                    <div>
-                        <i class="fab fa-steam text-2xl mb-2 text-gray-300"></i>
-                        <h4 class="font-bold">Alternative Methods</h4>
-                        <p class="text-xs text-gray-400 mt-1">Gaming Accounts, Steam Items, Game Keys, Promo Codes (Roblox, etc.)</p>
-                    </div>
-                    <span class="text-xs uppercase tracking-wider text-gray-400 text-right">Accepted</span>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fab fa-steam text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Another Methods</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">Skins / Keys / Items<br>(+25% Market Fee)</p>
                 </div>
             </div>
 
-            <div class="bg-red-500/10 border border-red-500/30 rounded-2xl p-6 text-center">
-                <h4 class="text-red-500 font-bold uppercase tracking-widest mb-2"><i class="fas fa-exclamation-triangle mr-2"></i> Important Terms</h4>
-                <p class="text-sm text-gray-300 mb-2">If your payment method is not listed, you will not be able to use premium features.</p>
-                <p class="text-sm text-gray-300 mb-4">Cooldown between orders: <strong class="text-white">3 DAYS</strong>.</p>
-                <p class="text-xs text-red-400/80 font-mono uppercase">Payment Policy: If you have not paid the developer within 10 minutes of completing the work, the project/bot will be disabled.</p>
+            <div class="bg-white/5 border border-white/20 rounded-2xl p-8 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+                <h4 class="text-white font-black uppercase tracking-widest mb-4 text-lg">Terms of Service</h4>
+                <div class="max-w-3xl mx-auto space-y-4 text-sm text-gray-400">
+                    <p>To ensure focus for every client, there is a mandatory cooldown between major orders: <strong class="text-white border-b border-white pb-0.5">3 DAYS</strong>.</p>
+                    <div class="mt-6 p-4 bg-black/50 rounded-xl border border-white/10">
+                        <p class="text-xs text-white font-mono uppercase tracking-wider leading-relaxed">
+                            If payment is not received within <span class="font-black text-lg">10 minutes</span> of project handover, all services will be immediately disabled.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <footer id="socials" class="border-t border-white/10 mt-20 bg-black/50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 py-12 flex flex-col items-center">
-            <h3 class="font-heading font-black text-2xl mb-8 uppercase tracking-widest">Connect With Me</h3>
-            <div class="flex gap-6 mb-12">
-                <a href="https://xeraze.github.io/xeraze/personalbio.html" target="_blank" class="w-14 h-14 rounded-full glass-card flex items-center justify-center text-xl hover:text-brand-500 hover:scale-110 transition-all">
+    <footer id="socials" class="border-t border-white/10 mt-20 bg-[#020202] relative z-10">
+        <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col items-center">
+            <h3 class="font-heading font-black text-3xl mb-10 uppercase tracking-widest text-glow">Contact With Me</h3>
+            <div class="flex gap-6 mb-14">
+                <a href="https://xeraze.github.io/xeraze/personalbio.html" target="_blank" class="w-16 h-16 rounded-full glass-card flex items-center justify-center text-2xl hover:bg-white hover:text-black hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                     <i class="fas fa-user-astronaut"></i>
                 </a>
-                <a href="https://guns.lol/xeraze" target="_blank" class="w-14 h-14 rounded-full glass-card flex items-center justify-center text-xl hover:text-brand-500 hover:scale-110 transition-all">
+                <a href="https://guns.lol/xeraze" target="_blank" class="w-16 h-16 rounded-full glass-card flex items-center justify-center text-2xl hover:bg-white hover:text-black hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                     <i class="fas fa-crosshairs"></i>
                 </a>
-                <a href="https://discord.gg/RWkGCfx2tG" target="_blank" class="w-14 h-14 rounded-full glass-card flex items-center justify-center text-xl hover:text-brand-500 hover:scale-110 transition-all">
+                <button onclick="copyDiscord()" class="w-16 h-16 rounded-full glass-card flex items-center justify-center text-2xl hover:bg-white hover:text-black hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]">
                     <i class="fab fa-discord"></i>
-                </a>
+                </button>
             </div>
-            <p class="text-gray-600 text-xs font-mono uppercase tracking-[0.3em]">XDEVS © 2026</p>
+            <div class="flex flex-col items-center gap-2">
+                <img src="avatar.png" alt="XDEVS" class="w-10 h-10 rounded-full border border-white/20 grayscale opacity-50" onerror="this.style.display='none';">
+                <p class="text-gray-600 text-xs font-mono uppercase tracking-[0.4em]">XDEVS © 2026</p>
+            </div>
         </div>
     </footer>
 
     <script>
+        function copyDiscord() {
+            const discordTag = "xeraze.official"; 
+            navigator.clipboard.writeText(discordTag).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            });
+        }
+
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
-        
         let width, height, particles;
 
         function resize() {
@@ -316,62 +323,50 @@
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
                 this.radius = Math.random() * 1.5;
+                this.baseAlpha = Math.random() * 0.5 + 0.1;
             }
-
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0) this.x = width; if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height; if (this.y > height) this.y = 0;
             }
-
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 229, 255, 0.5)';
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.baseAlpha})`;
                 ctx.fill();
             }
         }
 
         function initParticles() {
             particles = [];
-            let particleCount = Math.floor((width * height) / 15000);
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
+            const density = window.innerWidth < 768 ? 20000 : 12000; 
+            let particleCount = Math.floor((width * height) / density);
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
         }
         initParticles();
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
             particles.forEach((p, index) => {
-                p.update();
-                p.draw();
-                
+                p.update(); p.draw();
                 for (let j = index + 1; j < particles.length; j++) {
                     const p2 = particles[j];
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
+                    const dx = p.x - p2.x; const dy = p.y - p2.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
+                    if (distance < 120) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.15 - distance/1000})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
+                        const lineAlpha = 0.15 - (distance / 120) * 0.15;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${lineAlpha})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
                         ctx.stroke();
                     }
                 }
             });
-            
             requestAnimationFrame(animate);
         }
         animate();
