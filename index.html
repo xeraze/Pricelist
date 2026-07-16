@@ -62,6 +62,7 @@
             opacity: 0;
             transform: translateY(20px) translateX(-50%);
             transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+            z-index: 300;
         }
         #toast.show {
             visibility: visible;
@@ -78,36 +79,81 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            overflow: hidden;
+        }
+        #loading-screen.done {
+            pointer-events: none;
+        }
+        #loading-screen.done .loader-meta {
+            opacity: 0;
+            transition: opacity 0.35s ease;
         }
         #loading-screen.fade-out {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
+            transition: opacity 0.45s ease 0.15s, visibility 0.45s ease 0.15s;
         }
-        .loader-ring {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(255,255,255,0.1);
-            border-top-color: #ffffff;
-            animation: spin 1s linear infinite;
+
+        .loader-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 42px;
+            letter-spacing: -0.04em;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+            will-change: transform;
+            transition: transform 0.9s cubic-bezier(0.65, 0, 0.15, 1);
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-brand img,
+        .loader-brand .loader-fallback-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.2);
+            object-fit: cover;
+            transition: width 0.9s cubic-bezier(0.65, 0, 0.15, 1),
+                        height 0.9s cubic-bezier(0.65, 0, 0.15, 1);
+        }
+        .loader-brand .loader-fallback-icon {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.08);
+            font-size: 18px;
+        }
+        .loader-brand .dot { color: #6b7280; }
+        .loader-brand.fly-to-nav {
+            transform: translate(var(--fly-x), var(--fly-y)) scale(0.38);
+        }
+        .loader-brand.fly-to-nav img,
+        .loader-brand.fly-to-nav .loader-fallback-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .loader-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 28px;
+            gap: 14px;
+        }
         .loader-text {
             font-family: 'Space Grotesk', monospace;
             font-size: 11px;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: #666;
-            margin-top: 24px;
             min-height: 16px;
         }
         .loader-bar-track {
-            width: 220px;
+            width: 180px;
             height: 2px;
             background: rgba(255,255,255,0.08);
-            margin-top: 20px;
             overflow: hidden;
             border-radius: 2px;
         }
@@ -116,6 +162,19 @@
             width: 0%;
             background: #ffffff;
             transition: width 0.2s ease;
+        }
+        .loader-pulse {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+            animation: loaderPulse 1.8s ease-out infinite;
+            pointer-events: none;
+        }
+        @keyframes loaderPulse {
+            0% { transform: scale(0.55); opacity: 0.55; }
+            100% { transform: scale(1.55); opacity: 0; }
         }
 
         #legal-overlay {
@@ -141,6 +200,7 @@
             width: 100%;
             max-width: 780px;
             height: min(88vh, 780px);
+            max-height: calc(100vh - 32px);
             background: rgba(10,10,10,0.85);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 24px;
@@ -153,7 +213,8 @@
         .legal-step-track {
             display: flex;
             width: 200%;
-            height: 100%;
+            flex: 1;
+            min-height: 0;
             transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .legal-step {
@@ -162,13 +223,22 @@
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            min-height: 0;
         }
 
         .legal-scroll-area {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             padding: 32px 36px;
             scroll-behavior: smooth;
+        }
+
+        .legal-footer {
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 24px;
+            background: rgba(0,0,0,0.3);
         }
 
         .legal-scroll-area .clause {
@@ -195,6 +265,9 @@
 
         .legal-footer-btn {
             transition: all 0.3s ease;
+        }
+        .legal-footer .glass-card:hover {
+            transform: none;
         }
         .legal-footer-btn:disabled {
             opacity: 0.35;
@@ -227,11 +300,33 @@
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.1);
             transition: border-color 0.2s ease, background 0.2s ease;
+            color: #fff;
+            color-scheme: dark;
         }
         .field-input:focus {
             outline: none;
             border-color: rgba(255,255,255,0.5);
             background: rgba(255,255,255,0.06);
+        }
+        select.field-input {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #fff 50%),
+                linear-gradient(135deg, #fff 50%, transparent 50%),
+                linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0.12));
+            background-position:
+                calc(100% - 18px) calc(50% - 2px),
+                calc(100% - 12px) calc(50% - 2px),
+                calc(100% - 40px) 50%;
+            background-size: 6px 6px, 6px 6px, 1px 60%;
+            background-repeat: no-repeat;
+            padding-right: 48px;
+            cursor: pointer;
+        }
+        select.field-input option {
+            background: #111;
+            color: #fff;
         }
         .field-input.field-error {
             border-color: rgba(239,68,68,0.6);
@@ -284,9 +379,16 @@
     <canvas id="particles-canvas"></canvas>
 
     <div id="loading-screen">
-        <div class="loader-ring"></div>
-        <div class="loader-bar-track"><div class="loader-bar-fill" id="loader-bar"></div></div>
-        <div class="loader-text" id="loader-text">Ініціалізація...</div>
+        <div class="loader-pulse" aria-hidden="true"></div>
+        <div class="loader-brand" id="loader-brand">
+            <img src="avatar.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <span class="loader-fallback-icon"><i class="fas fa-code"></i></span>
+            XDEVS<span class="dot">.</span>
+        </div>
+        <div class="loader-meta">
+            <div class="loader-bar-track"><div class="loader-bar-fill" id="loader-bar"></div></div>
+            <div class="loader-text" id="loader-text">Loading...</div>
+        </div>
     </div>
 
     <div id="legal-overlay">
@@ -298,8 +400,13 @@
                     <i class="fas fa-chevron-right text-[8px]"></i>
                     <span id="step-indicator-2">02 Договір</span>
                 </div>
-                <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
-                    <i class="fas fa-lock"></i> XDEVS Legal
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
+                        <i class="fas fa-lock"></i> XDEVS Warning
+                    </div>
+                    <button type="button" id="btn-close-legal" class="w-8 h-8 rounded-full border border-white/10 text-gray-500 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center" title="До прайсу" aria-label="Закрити">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
                 </div>
             </div>
 
@@ -330,9 +437,9 @@
                             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2"><i class="fas fa-2 text-[10px]"></i> Вартість послуг та порядок оплати</h3>
                             <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.1.</span> Вартість послуг визначається згідно з діючим прайс-листом: <span class="text-white underline decoration-dotted">xeraze.github.io/Pricelist</span>.</p>
                             <div class="bg-white/5 border-l-2 border-white/30 rounded-r-lg p-4 mb-3">
-                                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.2. Особливі умови.</span> Роботи, що виконуються Виконавцем в межах некомерційного проєкту «Kherson, Ukraine», є безвозмездними (безоплатними) за особистою ініціативою Виконавця. Дана умова не поширюється на будь-які замовлення від третіх осіб.</p>
+                                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.2. Особливі умови.</span> Роботи, що виконуються Виконавцем в межах некомерційного проєкту «Kherson, Ukraine» та «Sloboda Hospital [RP]», є безвозмездними (безоплатними) за особистою ініціативою Виконавця. Дана умова не поширюється на будь-які замовлення від третіх осіб.</p>
                             </div>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.3.</span> Початок робіт над платними замовленнями здійснюється виключно після внесення Замовником передплати у розмірі 50% від загальної вартості.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.3.</span> Початок робіт над платними замовленнями здійснюється виключно після внесення Замовником передплати у розмірі 25% від загальної вартості.</p>
                             <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.4.</span> Передплата є гарантією бронювання часу розробника та не підлягає поверненню у разі відмови Замовника від проєкту в процесі розробки.</p>
                         </div>
 
@@ -340,7 +447,7 @@
                             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2"><i class="fas fa-3 text-[10px]"></i> Авторське право та передача файлів</h3>
                             <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> Виконавець зберігає за собою всі майнові та немайнові авторські права на вихідний код до моменту повної (100%) оплати послуг Замовником.</p>
                             <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.2.</span> Демонстрація результатів роботи проводиться Виконавцем за допомогою скріншотів, відеозапису або на тестовому майданчику Виконавця.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.3.</span> Передача вихідних файлів (.lua, .rbxl, .json тощо) Замовнику здійснюється виключно після повної оплати залишку вартості (50%).</p>
+                            <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.3.</span> Передача вихідних файлів (.lua, .rbxl, .json тощо) Замовнику здійснюється виключно після повної оплати залишку вартості (75%).</p>
                         </div>
 
                         <div class="clause mb-6">
@@ -357,7 +464,7 @@
 
                     </div>
 
-                    <div class="border-t border-white/10 px-6 py-4 flex items-center justify-between gap-4 bg-black/30">
+                    <div class="legal-footer flex items-center justify-between gap-4">
                         <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="step1-hint">
                             <i class="fas fa-arrow-down animate-bounce"></i> Прогорніть документ до кінця
                         </div>
@@ -395,15 +502,15 @@
 
                         <div class="clause mb-6">
                             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Замовник</h3>
-                            <label class="block text-xs text-gray-400 mb-1.5">Нікнейм / Discord / ПІБ <span class="req-star">*</span></label>
-                            <input type="text" id="f-customer" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: xeraze. або Discord ID">
-                            <p class="field-error-msg" data-for="f-customer">Обов'язкове поле — вкажіть, як до вас звертатись.</p>
+                            <label class="block text-xs text-gray-400 mb-1.5">ПІБ або Ім'я + Discord Username, @email, t.me/??? тощо<span class="req-star">*</span></label>
+                            <input type="text" id="f-customer" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: Дмитро + xeraze., xeraze.official@gmail.com тощо">
+                            <p class="field-error-msg" data-for="f-customer">Обов'язкове поле — вкажіть, як можна з вами зв’язатися та звертатися.</p>
                         </div>
 
                         <div class="clause mb-6">
                             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. Предмет замовлення (ТЗ)</h3>
                             <label class="block text-xs text-gray-400 mb-1.5">Назва продукту <span class="req-star">*</span></label>
-                            <input type="text" id="f-product-name" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: Discord бот модерації">
+                            <input type="text" id="f-product-name" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: Discord Bot">
                             <p class="field-error-msg" data-for="f-product-name">Обов'язкове поле.</p>
 
                             <label class="block text-xs text-gray-400 mb-1.5 mt-4">Короткий опис продукту <span class="req-star">*</span></label>
@@ -418,7 +525,7 @@
                             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Терміни та фінансові умови</h3>
 
                             <label class="block text-xs text-gray-400 mb-1.5">Термін виконання <span class="text-gray-600">(необов'язково)</span></label>
-                            <input type="text" id="f-deadline" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-4" placeholder="Наприклад: до 25.07.2026">
+                            <input type="text" id="f-deadline" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-4" placeholder="Наприклад: до 12.34.5678">
 
                             <label class="block text-xs text-gray-400 mb-1.5">Загальна вартість <span class="req-star">*</span></label>
                             <input type="text" id="f-total-cost" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: 149.99 UAH">
@@ -426,7 +533,7 @@
 
                             <div class="grid grid-cols-2 gap-4 mt-4">
                                 <div>
-                                    <label class="block text-xs text-gray-400 mb-1.5">Передплата (50%) <span class="req-star">*</span></label>
+                                    <label class="block text-xs text-gray-400 mb-1.5">Передплата (25%) <span class="req-star">*</span></label>
                                     <input type="text" id="f-prepay-amount" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Сума">
                                     <p class="field-error-msg" data-for="f-prepay-amount">Обов'язкове поле.</p>
                                 </div>
@@ -441,8 +548,8 @@
                                 </div>
                             </div>
 
-                            <label class="block text-xs text-gray-400 mb-1.5 mt-4">Залишок до сплати (50%) <span class="req-star">*</span></label>
-                            <input type="text" id="f-remainder" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Сума, сплачується після демонстрації результату">
+                            <label class="block text-xs text-gray-400 mb-1.5 mt-4">Залишок до сплати (75%) <span class="req-star">*</span></label>
+                            <input type="text" id="f-remainder" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Сума, сплачується після демонстранції результату">
                             <p class="field-error-msg" data-for="f-remainder">Обов'язкове поле.</p>
                         </div>
 
@@ -452,8 +559,8 @@
                             <p class="text-sm text-gray-300 leading-relaxed mb-4"><span class="text-white font-bold">3.2.</span> Замовник розуміє, що вихідний код буде переданий йому лише після повної оплати вартості послуг.</p>
 
                             <label class="block text-xs text-gray-400 mb-1.5">Підтвердження Замовника <span class="req-star">*</span></label>
-                            <p class="text-[11px] text-gray-500 mb-1.5">Напишіть дослівно: <span class="text-white font-mono">«Згоден з ТЗ та Офертою»</span></p>
-                            <input type="text" id="f-confirmation" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Згоден з ТЗ та Офертою">
+                            <p class="text-[11px] text-gray-500 mb-1.5">Напишіть дослівно: <span class="text-white font-mono">«Я згоден з Офертою»</span></p>
+                            <input type="text" id="f-confirmation" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Я згоден з Офертою">
                             <p class="field-error-msg" data-for="f-confirmation">Текст має точно збігатись із фразою вище.</p>
                         </div>
 
@@ -474,8 +581,8 @@
 
                     </div>
 
-                    <div class="border-t border-white/10 px-6 py-4 bg-black/30">
-                        <div class="flex items-center justify-between gap-4 mb-3">
+                    <div class="legal-footer">
+                        <div class="flex items-center justify-between gap-3 flex-wrap">
                             <button id="btn-back-step1" class="text-[11px] text-gray-500 hover:text-white transition-colors flex items-center gap-1.5">
                                 <i class="fas fa-arrow-left"></i> Назад до оферти
                             </button>
@@ -483,12 +590,12 @@
                                 <i class="fas fa-arrow-down animate-bounce"></i> Прогорніть документ до кінця
                             </div>
                         </div>
-                        <div class="flex items-center justify-between gap-4">
-                            <div class="flex items-center gap-2.5 cursor-pointer select-none" id="agree-checkbox-wrap">
+                        <div class="flex items-center justify-between gap-3 mt-2.5">
+                            <div class="flex items-center gap-2.5 cursor-pointer select-none min-w-0" id="agree-checkbox-wrap">
                                 <div class="legal-checkbox locked" id="agree-checkbox"><i class="fas fa-check hidden"></i></div>
-                                <span class="text-xs text-gray-400">Я прочитав(ла) та погоджуюсь з умовами</span>
+                                <span class="text-xs text-gray-400 leading-snug">Я прочитав(ла) та погоджуюсь з умовами</span>
                             </div>
-                            <button id="btn-submit" disabled class="legal-footer-btn glass-card border-white/20 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap">
+                            <button id="btn-submit" disabled class="legal-footer-btn glass-card border-white/20 px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap flex-shrink-0">
                                 <span id="btn-submit-label">Оформити замовлення</span>
                                 <svg class="timer-ring hidden" id="timer-ring-2" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
                             </button>
@@ -500,26 +607,28 @@
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 z-[100] glass-card px-6 py-3 rounded-full flex items-center gap-3 border-white/20">
+    <div id="toast" class="fixed bottom-10 left-1/2 glass-card px-6 py-3 rounded-full flex items-center gap-3 border-white/20">
         <i class="fas fa-check-circle text-white"></i>
         <span class="font-bold text-sm tracking-wide" id="toast-text">Discord Username Copied!</span>
     </div>
 
     <nav class="fixed w-full z-50 glass-card border-x-0 border-t-0 border-b border-white/5 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-3">
+            <a href="#" id="nav-brand" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-3 opacity-0">
                 <img src="avatar.png" alt="Logo" class="w-8 h-8 rounded-full border border-white/20" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                 <i class="fas fa-code text-white hidden"></i>
                 XDEVS<span class="text-gray-500">.</span>
             </a>
-            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-widest uppercase text-gray-400">
-                <a href="#web" class="hover:text-white transition-colors">Web</a>
-                <a href="#servers" class="hover:text-white transition-colors">Servers</a>
-                <a href="#bots" class="hover:text-white transition-colors">Bots</a>
-                <a href="#payment" class="hover:text-white transition-colors">Payment</a>
+            <div class="flex items-center gap-4 md:gap-8 text-sm font-semibold tracking-widest uppercase text-gray-400">
+                <button type="button" id="nav-oferta" class="hover:text-white transition-colors">Оферта</button>
+                <button type="button" id="nav-dogovir" class="hover:text-white transition-colors">Замовлення</button>
+                <a href="#web" class="hidden md:inline hover:text-white transition-colors">Web</a>
+                <a href="#servers" class="hidden md:inline hover:text-white transition-colors">Servers</a>
+                <a href="#bots" class="hidden md:inline hover:text-white transition-colors">Bots</a>
+                <a href="#payment" class="hidden md:inline hover:text-white transition-colors">Payment</a>
             </div>
-            <button onclick="copyDiscord()" class="bg-white text-black px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-gray-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]">
-                Discord (Contact)
+            <button onclick="copyDiscord()" class="bg-white text-black px-5 md:px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-gray-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]">
+                Discord
             </button>
         </div>
     </nav>
@@ -815,17 +924,41 @@
         let loadProgress = 0;
         const loaderBar = document.getElementById('loader-bar');
         const loaderText = document.getElementById('loader-text');
+        const loaderBrand = document.getElementById('loader-brand');
+        const loadingScreen = document.getElementById('loading-screen');
+        const navBrand = document.getElementById('nav-brand');
         let msgIndex = 0;
+
+        function flyLogoToNav(done) {
+            const brandRect = loaderBrand.getBoundingClientRect();
+            const navRect = navBrand.getBoundingClientRect();
+            const scale = 0.38;
+            const flyX = (navRect.left + navRect.width / 2) - (brandRect.left + brandRect.width / 2);
+            const flyY = (navRect.top + navRect.height / 2) - (brandRect.top + brandRect.height / 2)
+                + (brandRect.height * (1 - scale)) / 2 * 0.15;
+            loaderBrand.style.setProperty('--fly-x', flyX + 'px');
+            loaderBrand.style.setProperty('--fly-y', flyY + 'px');
+            loadingScreen.classList.add('done');
+            requestAnimationFrame(() => {
+                loaderBrand.classList.add('fly-to-nav');
+            });
+            setTimeout(() => {
+                navBrand.style.transition = 'opacity 0.35s ease';
+                navBrand.style.opacity = '1';
+                loadingScreen.classList.add('fade-out');
+                setTimeout(done, 500);
+            }, 920);
+        }
 
         const loadInterval = setInterval(() => {
             loadProgress += Math.random() * 18 + 8;
             if (loadProgress >= 100) {
                 loadProgress = 100;
                 clearInterval(loadInterval);
-                setTimeout(() => {
-                    document.getElementById('loading-screen').classList.add('fade-out');
-                    setTimeout(showLegalModal, 500);
-                }, 300);
+                loaderBar.style.width = '100%';
+                loaderText.textContent = 'Готово';
+                setTimeout(() => flyLogoToNav(afterLoadingComplete), 280);
+                return;
             }
             loaderBar.style.width = loadProgress + '%';
             const idx = Math.min(Math.floor(loadProgress / 26), loadingMessages.length - 1);
@@ -835,14 +968,74 @@
             }
         }, 260);
 
+        const LEGAL_SEEN_KEY = 'xdevs_legal_seen';
         const legalOverlay = document.getElementById('legal-overlay');
         const stepTrack = document.getElementById('step-track');
         const progressFill = document.getElementById('progress-fill');
 
-        function showLegalModal() {
-            legalOverlay.classList.add('visible');
-            initClauseReveal(document.getElementById('scroll-oferta'));
+        function hasSeenLegal() {
+            try { return localStorage.getItem(LEGAL_SEEN_KEY) === '1'; } catch (_) { return false; }
+        }
+        function markLegalSeen() {
+            try { localStorage.setItem(LEGAL_SEEN_KEY, '1'); } catch (_) {}
+        }
+
+        function afterLoadingComplete() {
+            if (hasSeenLegal()) {
+                document.body.style.overflow = 'auto';
+                return;
+            }
+            openLegal(1);
+        }
+
+        function setStepIndicators(step) {
+            const s1 = document.getElementById('step-indicator-1');
+            const s2 = document.getElementById('step-indicator-2');
+            if (step === 1) {
+                s1.classList.add('text-white');
+                s1.classList.remove('text-gray-600');
+                s2.classList.remove('text-white');
+            } else {
+                s1.classList.remove('text-white');
+                s1.classList.add('text-gray-600');
+                s2.classList.add('text-white');
+            }
+        }
+
+        function prepareStep1() {
+            setStepIndicators(1);
+            stepTrack.style.transform = 'translateX(0%)';
+            const scrollEl = document.getElementById('scroll-oferta');
+            scrollEl.scrollTop = 0;
+            step1Ready = false;
+            initClauseReveal(scrollEl);
             setupScrollGate('scroll-oferta', 'btn-step1-next', 'timer-ring-1', 'btn-step1-label', 'step1-hint', 'Далі', finishStep1Check);
+        }
+
+        function prepareStep2() {
+            setStepIndicators(2);
+            stepTrack.style.transform = 'translateX(-50%)';
+            generateContractMeta();
+
+            step2ReadReady = false;
+            checkboxChecked = false;
+            checkboxEl.classList.add('locked');
+            checkboxEl.classList.remove('checked');
+            checkboxEl.querySelector('i').classList.add('hidden');
+            document.getElementById('btn-submit').disabled = true;
+
+            const scrollEl = document.getElementById('scroll-dogovir');
+            scrollEl.scrollTop = 0;
+            initClauseReveal(scrollEl);
+            setupScrollGate('scroll-dogovir', 'btn-submit', 'timer-ring-2', 'btn-submit-label', 'step2-hint', 'Оформити замовлення', unlockCheckbox);
+        }
+
+        function openLegal(step) {
+            legalOverlay.classList.remove('dismissed');
+            legalOverlay.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+            if (step === 2) prepareStep2();
+            else prepareStep1();
         }
 
         function updateOverallProgress(step, ratio) {
@@ -860,7 +1053,13 @@
             clauses.forEach(c => obs.observe(c));
         }
 
+        const scrollGates = {};
+
         function setupScrollGate(scrollElId, btnId, ringId, labelId, hintId, doneLabel, onReadyCheck) {
+            if (scrollGates[scrollElId]) {
+                scrollGates[scrollElId].teardown();
+            }
+
             const scrollEl = document.getElementById(scrollElId);
             const btn = document.getElementById(btnId);
             const ring = document.getElementById(ringId);
@@ -868,11 +1067,31 @@
             const hint = document.getElementById(hintId);
             let reachedBottom = false;
             let timerStarted = false;
+            let unlocked = false;
             let secondsLeft = WAIT_SECONDS;
+            let tick = null;
             const circumference = 62.8;
 
+            btn.disabled = true;
+            ring.classList.add('hidden');
+            ring.querySelector('.fg').style.strokeDashoffset = String(circumference);
+            label.textContent = doneLabel === 'Далі' ? 'Далі' : doneLabel;
+            hint.innerHTML = '<i class="fas fa-arrow-down animate-bounce"></i> Прогорніть документ до кінця';
+
+            function getScrollRatio() {
+                const scrollable = scrollEl.scrollHeight - scrollEl.clientHeight;
+                if (scrollable <= 8) return -1;
+                return scrollEl.scrollTop / scrollable;
+            }
+
             function onScroll() {
-                const ratio = scrollEl.scrollTop / (scrollEl.scrollHeight - scrollEl.clientHeight);
+                const ratio = getScrollRatio();
+                if (ratio < 0) {
+                    const step = scrollElId === 'scroll-oferta' ? 1 : 2;
+                    updateOverallProgress(step, 0);
+                    return;
+                }
+
                 const step = scrollElId === 'scroll-oferta' ? 1 : 2;
                 updateOverallProgress(step, Math.min(ratio, 1));
 
@@ -884,12 +1103,12 @@
             }
 
             function startWaitTimer() {
-                if (timerStarted) return;
+                if (timerStarted || unlocked) return;
                 timerStarted = true;
                 ring.classList.remove('hidden');
                 label.textContent = `${WAIT_SECONDS}с`;
 
-                const tick = setInterval(() => {
+                tick = setInterval(() => {
                     secondsLeft -= 1;
                     const offset = circumference * (secondsLeft / WAIT_SECONDS);
                     ring.querySelector('.fg').style.strokeDashoffset = offset;
@@ -897,6 +1116,8 @@
 
                     if (secondsLeft <= 0) {
                         clearInterval(tick);
+                        tick = null;
+                        unlocked = true;
                         btn.disabled = false;
                         ring.classList.add('hidden');
                         hint.innerHTML = '<i class="fas fa-check text-green-400"></i> Документ прочитано';
@@ -905,29 +1126,52 @@
                 }, 1000);
             }
 
+            function maybeStartIfFits() {
+                const tryFit = () => {
+                    if (timerStarted || unlocked || reachedBottom) return;
+                    const ratio = getScrollRatio();
+                    if (ratio < 0 && scrollEl.scrollHeight > 40) {
+                        reachedBottom = true;
+                        hint.innerHTML = '<i class="fas fa-hourglass-half"></i> Зачекайте, документ перевіряється...';
+                        startWaitTimer();
+                    } else {
+                        onScroll();
+                    }
+                };
+                requestAnimationFrame(() => requestAnimationFrame(tryFit));
+                setTimeout(tryFit, 450);
+            }
+
             scrollEl.addEventListener('scroll', onScroll);
-            onScroll();
+            maybeStartIfFits();
+
+            scrollGates[scrollElId] = {
+                teardown() {
+                    scrollEl.removeEventListener('scroll', onScroll);
+                    if (tick) clearInterval(tick);
+                }
+            };
         }
 
         let step1Ready = false;
+        let step2ReadReady = false;
         function finishStep1Check() { step1Ready = true; }
 
         document.getElementById('btn-step1-next').addEventListener('click', () => {
             if (!step1Ready) return;
-            stepTrack.style.transform = 'translateX(-50%)';
-            document.getElementById('step-indicator-1').classList.remove('text-white');
-            document.getElementById('step-indicator-1').classList.add('text-gray-600');
-            document.getElementById('step-indicator-2').classList.add('text-white');
-            generateContractMeta();
-            initClauseReveal(document.getElementById('scroll-dogovir'));
-            setupScrollGate('scroll-dogovir', 'btn-submit', 'timer-ring-2', 'btn-submit-label', 'step2-hint', 'Оформити замовлення', unlockCheckbox);
+            prepareStep2();
         });
 
         document.getElementById('btn-back-step1').addEventListener('click', () => {
-            stepTrack.style.transform = 'translateX(0%)';
-            document.getElementById('step-indicator-2').classList.remove('text-white');
-            document.getElementById('step-indicator-1').classList.add('text-white');
+            prepareStep1();
         });
+
+        document.getElementById('btn-close-legal').addEventListener('click', () => {
+            dismissLegalModal();
+        });
+
+        document.getElementById('nav-oferta').addEventListener('click', () => openLegal(1));
+        document.getElementById('nav-dogovir').addEventListener('click', () => openLegal(2));
 
         function generateContractMeta() {
             const now = new Date();
@@ -949,7 +1193,10 @@
         let checkboxChecked = false;
 
         function unlockCheckbox() {
+            step2ReadReady = true;
             checkboxEl.classList.remove('locked');
+            document.getElementById('btn-submit').disabled = true;
+            validateSubmitAvailability();
         }
 
         checkboxWrap.addEventListener('click', () => {
@@ -986,6 +1233,7 @@
         document.getElementById('f-confirmation').addEventListener('input', () => clearFieldError('f-confirmation'));
 
         function validateSubmitAvailability() {
+            document.getElementById('btn-submit').disabled = !(step2ReadReady && checkboxChecked);
         }
 
         function validateForm() {
@@ -1081,12 +1329,15 @@
         }
 
         function dismissLegalModal() {
+            markLegalSeen();
             legalOverlay.classList.add('dismissed');
+            legalOverlay.classList.remove('visible');
             document.body.style.overflow = 'auto';
         }
 
         document.body.style.overflow = 'hidden';
         legalOverlay.addEventListener('transitionend', (e) => {
+            if (e.target !== legalOverlay) return;
             if (legalOverlay.classList.contains('dismissed')) {
                 document.body.style.overflow = 'auto';
             }
