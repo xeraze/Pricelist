@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
-
     <script>
         tailwind.config = {
             theme: {
@@ -21,358 +20,7 @@
             }
         }
     </script>
-
-    <style>
-        html { scroll-behavior: smooth; }
-        body { background-color: #050505; color: #ffffff; overflow-x: hidden; }
-
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .glass-card {
-            background: rgba(20, 20, 20, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.15);
-        }
-
-        .text-glow { text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
-
-        #toast {
-            visibility: hidden;
-            opacity: 0;
-            transform: translateY(20px) translateX(-50%);
-            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
-            z-index: 300;
-        }
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0) translateX(-50%);
-        }
-
-        #loading-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            background: #050505;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        #loading-screen.done {
-            pointer-events: none;
-        }
-        #loading-screen.done .loader-meta {
-            opacity: 0;
-            transition: opacity 0.35s ease;
-        }
-        #loading-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.45s ease 0.15s, visibility 0.45s ease 0.15s;
-        }
-
-        .loader-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 900;
-            font-size: 42px;
-            letter-spacing: -0.04em;
-            color: #fff;
-            position: relative;
-            z-index: 2;
-            will-change: transform;
-            transition: transform 0.9s cubic-bezier(0.65, 0, 0.15, 1);
-        }
-        .loader-brand img,
-        .loader-brand .loader-fallback-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 9999px;
-            border: 1px solid rgba(255,255,255,0.2);
-            object-fit: cover;
-            transition: width 0.9s cubic-bezier(0.65, 0, 0.15, 1),
-                        height 0.9s cubic-bezier(0.65, 0, 0.15, 1);
-        }
-        .loader-brand .loader-fallback-icon {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.08);
-            font-size: 18px;
-        }
-        .loader-brand .dot { color: #6b7280; }
-        .loader-brand.fly-to-nav {
-            transform: translate(var(--fly-x), var(--fly-y)) scale(0.38);
-        }
-        .loader-brand.fly-to-nav img,
-        .loader-brand.fly-to-nav .loader-fallback-icon {
-            width: 32px;
-            height: 32px;
-        }
-
-        .loader-meta {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 28px;
-            gap: 14px;
-        }
-        .loader-text {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 11px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: #666;
-            min-height: 16px;
-        }
-        .loader-bar-track {
-            width: 180px;
-            height: 2px;
-            background: rgba(255,255,255,0.08);
-            overflow: hidden;
-            border-radius: 2px;
-        }
-        .loader-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: #ffffff;
-            transition: width 0.2s ease;
-        }
-        .loader-pulse {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.12);
-            animation: loaderPulse 1.8s ease-out infinite;
-            pointer-events: none;
-        }
-        @keyframes loaderPulse {
-            0% { transform: scale(0.55); opacity: 0.55; }
-            100% { transform: scale(1.55); opacity: 0; }
-        }
-
-        #legal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 150;
-            background: rgba(2,2,2,0.85);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        #legal-overlay.visible { opacity: 1; }
-        #legal-overlay.dismissed {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .legal-modal {
-            width: 100%;
-            max-width: 780px;
-            height: min(88vh, 780px);
-            max-height: calc(100vh - 32px);
-            background: rgba(10,10,10,0.85);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 30px 80px -20px rgba(0,0,0,0.8), 0 0 60px -20px rgba(255,255,255,0.05);
-        }
-
-        .legal-step-track {
-            display: flex;
-            width: 200%;
-            flex: 1;
-            min-height: 0;
-            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-        .legal-step {
-            width: 50%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            min-height: 0;
-        }
-
-        .legal-scroll-area {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
-            padding: 32px 36px;
-            scroll-behavior: smooth;
-        }
-
-        .legal-footer {
-            flex-shrink: 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 24px;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .legal-scroll-area .clause {
-            opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .legal-scroll-area .clause.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .legal-progress-track {
-            height: 2px;
-            background: rgba(255,255,255,0.06);
-            width: 100%;
-        }
-        .legal-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #666, #ffffff);
-            transition: width 0.1s linear;
-        }
-
-        .legal-footer-btn {
-            transition: all 0.3s ease;
-        }
-        .legal-footer .glass-card:hover {
-            transform: none;
-        }
-        .legal-footer-btn:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-            filter: grayscale(1);
-        }
-        .legal-footer-btn:not(:disabled):hover {
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 25px rgba(255,255,255,0.4);
-        }
-
-        .timer-ring {
-            width: 22px;
-            height: 22px;
-            transform: rotate(-90deg);
-        }
-        .timer-ring circle {
-            fill: none;
-            stroke-width: 2;
-        }
-        .timer-ring .bg { stroke: rgba(255,255,255,0.1); }
-        .timer-ring .fg {
-            stroke: #ffffff;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1s linear;
-        }
-
-        .field-input {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: border-color 0.2s ease, background 0.2s ease;
-            color: #fff;
-            color-scheme: dark;
-        }
-        .field-input:focus {
-            outline: none;
-            border-color: rgba(255,255,255,0.5);
-            background: rgba(255,255,255,0.06);
-        }
-        select.field-input {
-            appearance: none;
-            -webkit-appearance: none;
-            background-image:
-                linear-gradient(45deg, transparent 50%, #fff 50%),
-                linear-gradient(135deg, #fff 50%, transparent 50%),
-                linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0.12));
-            background-position:
-                calc(100% - 18px) calc(50% - 2px),
-                calc(100% - 12px) calc(50% - 2px),
-                calc(100% - 40px) 50%;
-            background-size: 6px 6px, 6px 6px, 1px 60%;
-            background-repeat: no-repeat;
-            padding-right: 48px;
-            cursor: pointer;
-        }
-        select.field-input option {
-            background: #111;
-            color: #fff;
-        }
-        .field-input.field-error {
-            border-color: rgba(239,68,68,0.6);
-        }
-        .field-error-msg {
-            display: none;
-            color: #f87171;
-            font-size: 11px;
-            margin-top: 4px;
-        }
-        .field-error-msg.show { display: block; }
-
-        .req-star { color: #f87171; }
-
-        .legal-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 1.5px solid rgba(255,255,255,0.3);
-            border-radius: 5px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-        .legal-checkbox.checked {
-            background: #ffffff;
-            border-color: #ffffff;
-        }
-        .legal-checkbox.checked i { color: #000; font-size: 12px; }
-        .legal-checkbox.locked {
-            opacity: 0.3;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .divider-svg {
-            width: 100%;
-            height: 20px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="antialiased selection:bg-white selection:text-black">
 
@@ -387,241 +35,256 @@
         </div>
         <div class="loader-meta">
             <div class="loader-bar-track"><div class="loader-bar-fill" id="loader-bar"></div></div>
-            <div class="loader-text" id="loader-text">Loading...</div>
+            <div class="loader-text" id="loader-text">Initializing...</div>
         </div>
     </div>
 
-    <div id="legal-overlay">
+    <div id="offer-overlay" class="modal-overlay">
         <div class="legal-modal">
-
             <div class="flex items-center justify-between px-6 pt-5 pb-3">
                 <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500">
-                    <span id="step-indicator-1" class="text-white">01 Оферта</span>
-                    <i class="fas fa-chevron-right text-[8px]"></i>
-                    <span id="step-indicator-2">02 Договір</span>
+                    <span class="text-white">Public Offer</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
-                        <i class="fas fa-lock"></i> XDEVS Warning
+                        <i class="fas fa-lock"></i> XDEVS Legal
                     </div>
-                    <button type="button" id="btn-close-legal" class="w-8 h-8 rounded-full border border-white/10 text-gray-500 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center" title="До прайсу" aria-label="Закрити">
+                    <button type="button" id="btn-close-offer" class="modal-close-btn w-8 h-8 rounded-full border border-white/10 text-gray-500 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center" title="Close" aria-label="Close">
                         <i class="fas fa-times text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="legal-progress-track"><div class="legal-progress-fill" id="progress-fill"></div></div>
+            <div class="legal-progress-track"><div class="legal-progress-fill" id="progress-fill-offer"></div></div>
 
-            <div class="legal-step-track" id="step-track">
-
-                <div class="legal-step">
-                    <div class="legal-scroll-area" id="scroll-oferta">
-
-                        <div class="flex items-center gap-3 mb-2 clause">
-                            <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-scale-balanced"></i></div>
-                            <div>
-                                <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Публічна оферта</p>
-                                <h2 class="font-heading font-black text-lg uppercase tracking-tight">Про надання цифрових послуг «XDEVS»</h2>
-                            </div>
-                        </div>
-
-                        <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2"><i class="fas fa-1 text-[10px]"></i> Загальні положення</h3>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">1.1.</span> Даний документ є публічною пропозицією (офертою) розробника, що діє під брендом «XDEVS» (надалі — Виконавець), щодо надання послуг з розробки програмного забезпечення, скриптів та цифрового контенту.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">1.2.</span> Згідно зі ст. 433 та ст. 435 Цивільного кодексу України, об'єктами авторського права є комп'ютерні програми та вихідний код. Авторське право належить Виконавцю з моменту створення твору.</p>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2"><i class="fas fa-2 text-[10px]"></i> Вартість послуг та порядок оплати</h3>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.1.</span> Вартість послуг визначається згідно з діючим прайс-листом: <span class="text-white underline decoration-dotted">xeraze.github.io/Pricelist</span>.</p>
-                            <div class="bg-white/5 border-l-2 border-white/30 rounded-r-lg p-4 mb-3">
-                                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.2. Особливі умови.</span> Роботи, що виконуються Виконавцем в межах некомерційного проєкту «Kherson, Ukraine» та «Sloboda Hospital [RP]», є безвозмездними (безоплатними) за особистою ініціативою Виконавця. Дана умова не поширюється на будь-які замовлення від третіх осіб.</p>
-                            </div>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.3.</span> Початок робіт над платними замовленнями здійснюється виключно після внесення Замовником передплати у розмірі 25% від загальної вартості.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.4.</span> Передплата є гарантією бронювання часу розробника та не підлягає поверненню у разі відмови Замовника від проєкту в процесі розробки.</p>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2"><i class="fas fa-3 text-[10px]"></i> Авторське право та передача файлів</h3>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> Виконавець зберігає за собою всі майнові та немайнові авторські права на вихідний код до моменту повної (100%) оплати послуг Замовником.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.2.</span> Демонстрація результатів роботи проводиться Виконавцем за допомогою скріншотів, відеозапису або на тестовому майданчику Виконавця.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.3.</span> Передача вихідних файлів (.lua, .rbxl, .json тощо) Замовнику здійснюється виключно після повної оплати залишку вартості (75%).</p>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 flex items-center gap-2"><i class="fas fa-4 text-[10px]"></i> Відповідальність та захист прав</h3>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.1.</span> Замовнику забороняється видавати отриманий код за свій власний (плагіат) або перепродавати його третім особам без згоди Виконавця.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.2.</span> У разі виявлення факту використання продукту без повної оплати, Виконавець залишає за собою право надіслати скаргу (DMCA Notice) до адміністрації платформ (Roblox, Discord, GitHub) для блокування контенту.</p>
-                        </div>
-
-                        <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
-                            <div class="h-px bg-white/10 flex-1"></div>
-                            <span><i class="fas fa-circle-check mr-1"></i> Кінець документа</span>
-                            <div class="h-px bg-white/10 flex-1"></div>
-                        </div>
-
-                    </div>
-
-                    <div class="legal-footer flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="step1-hint">
-                            <i class="fas fa-arrow-down animate-bounce"></i> Прогорніть документ до кінця
-                        </div>
-                        <button id="btn-step1-next" disabled class="legal-footer-btn glass-card border-white/20 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2">
-                            <span id="btn-step1-label">Далі</span>
-                            <svg class="timer-ring hidden" id="timer-ring-1" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
-                        </button>
+            <div class="legal-scroll-area" id="scroll-offer-modal">
+                <div class="flex items-center gap-3 mb-2 clause">
+                    <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-scale-balanced"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Public offer</p>
+                        <h2 class="font-heading font-black text-lg uppercase tracking-tight">For the provision of digital services «XDEVS»</h2>
                     </div>
                 </div>
 
-                <div class="legal-step">
-                    <div class="legal-scroll-area" id="scroll-dogovir">
+                <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
 
-                        <div class="flex items-center gap-3 mb-2 clause">
-                            <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-file-signature"></i></div>
-                            <div>
-                                <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Договір-замовлення № <span id="contract-number" class="text-white font-mono">—</span></p>
-                                <h2 class="font-heading font-black text-lg uppercase tracking-tight">Оформлення замовлення XDEVS</h2>
-                            </div>
-                        </div>
-
-                        <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
-
-                        <div class="clause grid grid-cols-2 gap-4 mb-6 text-xs">
-                            <div class="glass-card rounded-xl p-3">
-                                <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Виконавець</p>
-                                <p class="text-white font-bold">XDEVS</p>
-                                <p class="text-gray-400">Закірко Дмитро Дмитрович</p>
-                            </div>
-                            <div class="glass-card rounded-xl p-3">
-                                <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Дата укладення</p>
-                                <p class="text-white font-bold font-mono" id="contract-date">—</p>
-                            </div>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Замовник</h3>
-                            <label class="block text-xs text-gray-400 mb-1.5">ПІБ або Ім'я + Discord Username, @email, t.me/??? тощо<span class="req-star">*</span></label>
-                            <input type="text" id="f-customer" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: Дмитро + xeraze., xeraze.official@gmail.com тощо">
-                            <p class="field-error-msg" data-for="f-customer">Обов'язкове поле — вкажіть, як можна з вами зв’язатися та звертатися.</p>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. Предмет замовлення (ТЗ)</h3>
-                            <label class="block text-xs text-gray-400 mb-1.5">Назва продукту <span class="req-star">*</span></label>
-                            <input type="text" id="f-product-name" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: Discord Bot">
-                            <p class="field-error-msg" data-for="f-product-name">Обов'язкове поле.</p>
-
-                            <label class="block text-xs text-gray-400 mb-1.5 mt-4">Короткий опис продукту <span class="req-star">*</span></label>
-                            <textarea id="f-product-short" rows="2" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1 resize-none" placeholder="Кілька речень про суть завдання"></textarea>
-                            <p class="field-error-msg" data-for="f-product-short">Обов'язкове поле.</p>
-
-                            <label class="block text-xs text-gray-400 mb-1.5 mt-4">Детальний опис продукту <span class="text-gray-600">(необов'язково)</span></label>
-                            <textarea id="f-product-long" rows="4" class="field-input w-full rounded-lg px-3 py-2.5 text-sm resize-none" placeholder="Технічні деталі, побажання, референси..."></textarea>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Терміни та фінансові умови</h3>
-
-                            <label class="block text-xs text-gray-400 mb-1.5">Термін виконання <span class="text-gray-600">(необов'язково)</span></label>
-                            <input type="text" id="f-deadline" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-4" placeholder="Наприклад: до 12.34.5678">
-
-                            <label class="block text-xs text-gray-400 mb-1.5">Загальна вартість <span class="req-star">*</span></label>
-                            <input type="text" id="f-total-cost" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Наприклад: 149.99 UAH">
-                            <p class="field-error-msg" data-for="f-total-cost">Обов'язкове поле.</p>
-
-                            <div class="grid grid-cols-2 gap-4 mt-4">
-                                <div>
-                                    <label class="block text-xs text-gray-400 mb-1.5">Передплата (25%) <span class="req-star">*</span></label>
-                                    <input type="text" id="f-prepay-amount" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Сума">
-                                    <p class="field-error-msg" data-for="f-prepay-amount">Обов'язкове поле.</p>
-                                </div>
-                                <div>
-                                    <label class="block text-xs text-gray-400 mb-1.5">Оплачено? <span class="req-star">*</span></label>
-                                    <select id="f-prepay-done" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1">
-                                        <option value="">Оберіть...</option>
-                                        <option value="Так">Так</option>
-                                        <option value="Ні">Ні</option>
-                                    </select>
-                                    <p class="field-error-msg" data-for="f-prepay-done">Обов'язкове поле.</p>
-                                </div>
-                            </div>
-
-                            <label class="block text-xs text-gray-400 mb-1.5 mt-4">Залишок до сплати (75%) <span class="req-star">*</span></label>
-                            <input type="text" id="f-remainder" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Сума, сплачується після демонстранції результату">
-                            <p class="field-error-msg" data-for="f-remainder">Обов'язкове поле.</p>
-                        </div>
-
-                        <div class="clause mb-6">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Згода з умовами</h3>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> Підтверджуючи дане замовлення, Замовник засвідчує, що він ознайомлений та згодний з умовами Публічної оферти XDEVS.</p>
-                            <p class="text-sm text-gray-300 leading-relaxed mb-4"><span class="text-white font-bold">3.2.</span> Замовник розуміє, що вихідний код буде переданий йому лише після повної оплати вартості послуг.</p>
-
-                            <label class="block text-xs text-gray-400 mb-1.5">Підтвердження Замовника <span class="req-star">*</span></label>
-                            <p class="text-[11px] text-gray-500 mb-1.5">Напишіть дослівно: <span class="text-white font-mono">«Я згоден з Офертою»</span></p>
-                            <input type="text" id="f-confirmation" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Я згоден з Офертою">
-                            <p class="field-error-msg" data-for="f-confirmation">Текст має точно збігатись із фразою вище.</p>
-                        </div>
-
-                        <div class="clause glass-card rounded-xl p-4 mb-6 flex items-center justify-between text-xs">
-                            <div>
-                                <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Підпис виконавця</p>
-                                <p class="text-white font-bold">Закірко Дмитро Дмитрович</p>
-                                <p class="text-gray-400 font-mono">xeraze.</p>
-                            </div>
-                            <i class="fas fa-signature text-2xl text-white/30"></i>
-                        </div>
-
-                        <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
-                            <div class="h-px bg-white/10 flex-1"></div>
-                            <span><i class="fas fa-circle-check mr-1"></i> Кінець документа</span>
-                            <div class="h-px bg-white/10 flex-1"></div>
-                        </div>
-
-                    </div>
-
-                    <div class="legal-footer">
-                        <div class="flex items-center justify-between gap-3 flex-wrap">
-                            <button id="btn-back-step1" class="text-[11px] text-gray-500 hover:text-white transition-colors flex items-center gap-1.5">
-                                <i class="fas fa-arrow-left"></i> Назад до оферти
-                            </button>
-                            <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="step2-hint">
-                                <i class="fas fa-arrow-down animate-bounce"></i> Прогорніть документ до кінця
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 mt-2.5">
-                            <div class="flex items-center gap-2.5 cursor-pointer select-none min-w-0" id="agree-checkbox-wrap">
-                                <div class="legal-checkbox locked" id="agree-checkbox"><i class="fas fa-check hidden"></i></div>
-                                <span class="text-xs text-gray-400 leading-snug">Я прочитав(ла) та погоджуюсь з умовами</span>
-                            </div>
-                            <button id="btn-submit" disabled class="legal-footer-btn glass-card border-white/20 px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap flex-shrink-0">
-                                <span id="btn-submit-label">Оформити замовлення</span>
-                                <svg class="timer-ring hidden" id="timer-ring-2" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
-                            </button>
-                        </div>
-                    </div>
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. General provisions</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">1.1.</span> This document is a public offer by the developer operating under the brand «XDEVS» (hereinafter — the Contractor) regarding software development, scripts, and digital content services.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">1.2.</span> Pursuant to Articles 433 and 435 of the Civil Code of Ukraine, computer programs and source code are objects of copyright. Copyright belongs to the Contractor from the moment the work is created.</p>
                 </div>
 
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Service fees and payment procedure</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.1.</span> Service fees are determined according to the current pricelist: <span class="text-white underline decoration-dotted">xeraze.github.io/Pricelist</span>.</p>
+                    <div class="bg-white/5 border-l-2 border-white/30 rounded-r-lg p-4 mb-3">
+                        <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.2. Special terms.</span> Work performed by the Contractor within the non-commercial projects «Kherson, Ukraine» and «Sloboda Hospital [RP]» is unpaid (free of charge) at the Contractor’s personal initiative. This condition does not apply to any orders from third parties.</p>
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.3.</span> Work on paid orders begins only after the Client pays a prepayment of 25% of the total cost.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.4.</span> The prepayment guarantees booking of the developer’s time and is non-refundable if the Client cancels the project during development.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Copyright and file transfer</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> The Contractor retains all economic and non-economic copyright in the source code until the Client has paid 100% of the service fees.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.2.</span> Demonstration of results is provided via screenshots, video recording, or the Contractor’s test environment.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.3.</span> Delivery of source files (.lua, .rbxl, .json, etc.) to the Client occurs only after full payment of the remaining balance (75%).</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">4. Liability and rights protection</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.1.</span> The Client may not present the received code as their own (plagiarism) or resell it to third parties without the Contractor’s consent.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.2.</span> If the product is used without full payment, the Contractor may send a DMCA Notice to platform administrators (Roblox, Discord, GitHub) to have the content blocked.</p>
+                </div>
+
+                <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
+                    <div class="h-px bg-white/10 flex-1"></div>
+                    <span><i class="fas fa-circle-check mr-1"></i> End of document</span>
+                    <div class="h-px bg-white/10 flex-1"></div>
+                </div>
             </div>
+
+            <div class="legal-footer flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="offer-modal-hint">
+                    <i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document
+                </div>
+                <button id="btn-offer-done" disabled class="legal-footer-btn glass-card border-white/20 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                    <span id="btn-offer-done-label">Continue</span>
+                    <svg class="timer-ring hidden" id="timer-ring-offer-modal" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="order-overlay" class="modal-overlay">
+        <div class="legal-modal">
+            <div class="flex items-center justify-between px-6 pt-5 pb-3">
+                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500">
+                    <span class="text-white">Order contract</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
+                        <i class="fas fa-lock"></i> XDEVS Legal
+                    </div>
+                    <button type="button" id="btn-close-order" class="w-8 h-8 rounded-full border border-white/10 text-gray-500 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center" title="Close" aria-label="Close">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="legal-progress-track"><div class="legal-progress-fill" id="progress-fill-order"></div></div>
+
+            <div class="legal-scroll-area" id="scroll-order">
+                <div class="flex items-center gap-3 mb-2 clause">
+                    <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-file-signature"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Order contract № <span id="contract-number" class="text-white font-mono">—</span></p>
+                        <h2 class="font-heading font-black text-lg uppercase tracking-tight">XDEVS order form</h2>
+                    </div>
+                </div>
+
+                <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
+
+                <div class="clause grid grid-cols-2 gap-4 mb-6 text-xs">
+                    <div class="glass-card rounded-xl p-3">
+                        <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Contractor</p>
+                        <p class="text-white font-bold">XDEVS</p>
+                        <p class="text-gray-400">Zakirko Dmytro Dmytrovych</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-3">
+                        <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Date</p>
+                        <p class="text-white font-bold font-mono" id="contract-date">—</p>
+                    </div>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Client</h3>
+                    <label class="block text-xs text-gray-400 mb-1.5">Name + Discord / email / t.me / etc. <span class="req-star">*</span></label>
+                    <input type="text" id="f-customer" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="e.g. Dmytro + xeraze. or email">
+                    <p class="field-error-msg" data-for="f-customer">Required — how we can contact you.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. Subject of the order (ToR)</h3>
+                    <label class="block text-xs text-gray-400 mb-1.5">Product name <span class="req-star">*</span></label>
+                    <input type="text" id="f-product-name" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="e.g. Discord Bot">
+                    <p class="field-error-msg" data-for="f-product-name">Required field.</p>
+
+                    <label class="block text-xs text-gray-400 mb-1.5 mt-4">Short description <span class="req-star">*</span></label>
+                    <textarea id="f-product-short" rows="2" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1 resize-none" placeholder="A few sentences about the task"></textarea>
+                    <p class="field-error-msg" data-for="f-product-short">Required field.</p>
+
+                    <label class="block text-xs text-gray-400 mb-1.5 mt-4">Detailed description <span class="text-gray-600">(optional)</span></label>
+                    <textarea id="f-product-long" rows="4" class="field-input w-full rounded-lg px-3 py-2.5 text-sm resize-none" placeholder="Technical details, wishes, references..."></textarea>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Timeline and payment terms</h3>
+
+                    <label class="block text-xs text-gray-400 mb-1.5">Deadline <span class="text-gray-600">(optional)</span></label>
+                    <input type="text" id="f-deadline" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-4" placeholder="e.g. by 25.07.2026">
+
+                    <label class="block text-xs text-gray-400 mb-1.5">Total cost <span class="req-star">*</span></label>
+                    <input type="text" id="f-total-cost" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="e.g. 149.99 UAH">
+                    <p class="field-error-msg" data-for="f-total-cost">Required field.</p>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1.5">Prepayment (25%) <span class="req-star">*</span></label>
+                            <input type="text" id="f-prepay-amount" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Amount">
+                            <p class="field-error-msg" data-for="f-prepay-amount">Required field.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1.5">Paid? <span class="req-star">*</span></label>
+                            <select id="f-prepay-done" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1">
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <p class="field-error-msg" data-for="f-prepay-done">Required field.</p>
+                        </div>
+                    </div>
+
+                    <label class="block text-xs text-gray-400 mb-1.5 mt-4">Remainder due (75%) <span class="req-star">*</span></label>
+                    <input type="text" id="f-remainder" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Paid after demonstration of the result">
+                    <p class="field-error-msg" data-for="f-remainder">Required field.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Agreement</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> By submitting this order, the Client confirms they have read and agree to the XDEVS Public Offer.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4"><span class="text-white font-bold">3.2.</span> The Client understands that source code will be delivered only after full payment.</p>
+                </div>
+
+                <div class="clause glass-card rounded-xl p-4 mb-6 flex items-center justify-between text-xs">
+                    <div>
+                        <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Contractor signature</p>
+                        <p class="text-white font-bold">Zakirko Dmytro Dmytrovych</p>
+                        <p class="text-gray-400 font-mono">xeraze.</p>
+                    </div>
+                    <i class="fas fa-signature text-2xl text-white/30"></i>
+                </div>
+
+                <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
+                    <div class="h-px bg-white/10 flex-1"></div>
+                    <span><i class="fas fa-circle-check mr-1"></i> End of document</span>
+                    <div class="h-px bg-white/10 flex-1"></div>
+                </div>
+            </div>
+
+            <div class="legal-footer">
+                <div class="flex items-center justify-between gap-3 flex-wrap mb-2.5">
+                    <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="order-hint">
+                        <i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document
+                    </div>
+                </div>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5 cursor-pointer select-none min-w-0" id="agree-checkbox-wrap">
+                        <div class="legal-checkbox locked" id="agree-checkbox"><i class="fas fa-check hidden"></i></div>
+                        <span class="text-xs text-gray-400 leading-snug">
+                            I agree with the
+                            <a href="offer.html" target="_blank" rel="noopener" class="text-white underline decoration-dotted hover:text-gray-200">Public Offer</a>
+                        </span>
+                    </div>
+                    <button id="btn-submit" disabled class="legal-footer-btn glass-card border-white/20 px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap flex-shrink-0">
+                        <span id="btn-submit-label">Submit order</span>
+                        <svg class="timer-ring hidden" id="timer-ring-order" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-overlay">
+        <div class="success-card">
+            <div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-5">
+                <i class="fas fa-check text-2xl text-white"></i>
+            </div>
+            <h3 class="font-heading font-black text-xl uppercase tracking-tight mb-3">Order submitted</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                Your application was sent successfully. Please wait for a reply — the developer will contact you using the contact details you provided.
+            </p>
+            <button type="button" id="btn-success-close" class="bg-white text-black px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-gray-200 transition-colors">
+                Back to pricelist
+            </button>
         </div>
     </div>
 
     <div id="toast" class="fixed bottom-10 left-1/2 glass-card px-6 py-3 rounded-full flex items-center gap-3 border-white/20">
         <i class="fas fa-check-circle text-white"></i>
-        <span class="font-bold text-sm tracking-wide" id="toast-text">Discord Username Copied!</span>
+        <span class="font-bold text-sm tracking-wide" id="toast-text">Discord username copied!</span>
     </div>
 
     <nav class="fixed w-full z-50 glass-card border-x-0 border-t-0 border-b border-white/5 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" id="nav-brand" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-3 opacity-0">
+            <a href="index.html" id="nav-brand" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-3 opacity-0">
                 <img src="avatar.png" alt="Logo" class="w-8 h-8 rounded-full border border-white/20" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                 <i class="fas fa-code text-white hidden"></i>
                 XDEVS<span class="text-gray-500">.</span>
             </a>
             <div class="flex items-center gap-4 md:gap-8 text-sm font-semibold tracking-widest uppercase text-gray-400">
-                <button type="button" id="nav-oferta" class="hover:text-white transition-colors">Оферта</button>
-                <button type="button" id="nav-dogovir" class="hover:text-white transition-colors">Замовлення</button>
+                <button type="button" id="nav-offer" class="hover:text-white transition-colors">Offer</button>
+                <button type="button" id="nav-order" class="hover:text-white transition-colors">Order</button>
                 <a href="#web" class="hidden md:inline hover:text-white transition-colors">Web</a>
                 <a href="#servers" class="hidden md:inline hover:text-white transition-colors">Servers</a>
                 <a href="#bots" class="hidden md:inline hover:text-white transition-colors">Bots</a>
@@ -655,7 +318,6 @@
                 <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-globe"></i></div>
                 <h2 class="text-3xl font-heading font-black uppercase tracking-tight">I. Website Development</h2>
             </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
                     <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Constructors</h3>
@@ -688,7 +350,6 @@
                 <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fab fa-discord"></i></div>
                 <h2 class="text-3xl font-heading font-black uppercase tracking-tight">II. Discord Servers Development</h2>
             </div>
-
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8 text-sm text-gray-300 flex items-start gap-4">
                 <i class="fas fa-info-circle text-white mt-1 text-lg"></i>
                 <div>
@@ -696,7 +357,6 @@
                     <p>Configuration of public bots and full Discord server setup (channels, roles, permissions, automated moderation, emojis, stickers, travel guide, and much more) are included by default in these packages, but they can also be ordered separately absolutely for free (for example, you can order free setup for channels and roles separately (2 settings) at no cost, but once you exceed this free limit, you will need to pay a quarter from the initial cost of a full Discord server setup for each new setup).</p>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="glass-card p-8 rounded-2xl">
                     <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Creation from Scratch</h3>
@@ -720,7 +380,6 @@
                 <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-robot"></i></div>
                 <h2 class="text-3xl font-heading font-black uppercase tracking-tight">III. Discord & Telegram Bots Development</h2>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                 <div class="glass-card p-6 rounded-2xl border-l-4 border-l-white">
                     <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm">Project Consultations</h4>
@@ -735,7 +394,6 @@
                     </p>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div class="flex flex-col">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-ghost text-gray-400"></i> BotGhost Framework (Discord)</h3>
@@ -750,7 +408,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="flex flex-col">
                     <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-terminal text-gray-400"></i> Pure Code (Py / Java)</h3>
                     <div class="space-y-3">
@@ -772,7 +429,6 @@
                 <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-wallet"></i></div>
                 <h2 class="text-3xl font-heading font-black uppercase tracking-tight">IV. Payment Methods</h2>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
                     <i class="fas fa-credit-card text-2xl mb-4 text-white"></i>
@@ -795,7 +451,6 @@
                     <p class="text-[10px] text-gray-500 leading-tight">Skins / Keys / Items / Game Accounts / Game Value<br>(in all of these cases, the commission is paid by you)</p>
                 </div>
             </div>
-
             <div class="bg-white/5 border border-white/20 rounded-2xl p-8 text-center relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
                 <h4 class="text-white font-black uppercase tracking-widest mb-4 text-lg">Terms of Service</h4>
@@ -809,7 +464,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer id="socials" class="border-t border-white/10 mt-20 bg-[#020202] relative z-10">
@@ -833,515 +487,7 @@
         </div>
     </footer>
 
-    <script>
-        const WEBHOOK_PROXY_URL = "https://xdevs-webhook.xeraze-official.workers.dev";
-        const REQUIRED_SCROLL_THRESHOLD = 0.96;
-        const WAIT_SECONDS = 10;
-
-        function copyDiscord() {
-            const discordTag = "xeraze.";
-            navigator.clipboard.writeText(discordTag).then(() => {
-                showToast("Discord Username Copied!");
-            });
-        }
-
-        function showToast(text) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-text').textContent = text;
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 3000);
-        }
-
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, particles;
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 1.5;
-                this.baseAlpha = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if (this.x < 0) this.x = width; if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height; if (this.y > height) this.y = 0;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.baseAlpha})`;
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            const density = window.innerWidth < 768 ? 20000 : 12000;
-            let particleCount = Math.floor((width * height) / density);
-            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-        }
-        initParticles();
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach((p, index) => {
-                p.update(); p.draw();
-                for (let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dx = p.x - p2.x; const dy = p.y - p2.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 120) {
-                        ctx.beginPath();
-                        const lineAlpha = 0.15 - (distance / 120) * 0.15;
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${lineAlpha})`;
-                        ctx.lineWidth = 0.6;
-                        ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const loadingMessages = [
-            "Ініціалізація...",
-            "Завантаження юридичних документів...",
-            "Перевірка цілісності даних...",
-            "Підготовка інтерфейсу..."
-        ];
-        let loadProgress = 0;
-        const loaderBar = document.getElementById('loader-bar');
-        const loaderText = document.getElementById('loader-text');
-        const loaderBrand = document.getElementById('loader-brand');
-        const loadingScreen = document.getElementById('loading-screen');
-        const navBrand = document.getElementById('nav-brand');
-        let msgIndex = 0;
-
-        function flyLogoToNav(done) {
-            const brandRect = loaderBrand.getBoundingClientRect();
-            const navRect = navBrand.getBoundingClientRect();
-            const scale = 0.38;
-            const flyX = (navRect.left + navRect.width / 2) - (brandRect.left + brandRect.width / 2);
-            const flyY = (navRect.top + navRect.height / 2) - (brandRect.top + brandRect.height / 2)
-                + (brandRect.height * (1 - scale)) / 2 * 0.15;
-            loaderBrand.style.setProperty('--fly-x', flyX + 'px');
-            loaderBrand.style.setProperty('--fly-y', flyY + 'px');
-            loadingScreen.classList.add('done');
-            requestAnimationFrame(() => {
-                loaderBrand.classList.add('fly-to-nav');
-            });
-            setTimeout(() => {
-                navBrand.style.transition = 'opacity 0.35s ease';
-                navBrand.style.opacity = '1';
-                loadingScreen.classList.add('fade-out');
-                setTimeout(done, 500);
-            }, 920);
-        }
-
-        const loadInterval = setInterval(() => {
-            loadProgress += Math.random() * 18 + 8;
-            if (loadProgress >= 100) {
-                loadProgress = 100;
-                clearInterval(loadInterval);
-                loaderBar.style.width = '100%';
-                loaderText.textContent = 'Готово';
-                setTimeout(() => flyLogoToNav(afterLoadingComplete), 280);
-                return;
-            }
-            loaderBar.style.width = loadProgress + '%';
-            const idx = Math.min(Math.floor(loadProgress / 26), loadingMessages.length - 1);
-            if (idx !== msgIndex) {
-                msgIndex = idx;
-                loaderText.textContent = loadingMessages[idx];
-            }
-        }, 260);
-
-        const LEGAL_SEEN_KEY = 'xdevs_legal_seen';
-        const legalOverlay = document.getElementById('legal-overlay');
-        const stepTrack = document.getElementById('step-track');
-        const progressFill = document.getElementById('progress-fill');
-
-        function hasSeenLegal() {
-            try { return localStorage.getItem(LEGAL_SEEN_KEY) === '1'; } catch (_) { return false; }
-        }
-        function markLegalSeen() {
-            try { localStorage.setItem(LEGAL_SEEN_KEY, '1'); } catch (_) {}
-        }
-
-        function afterLoadingComplete() {
-            if (hasSeenLegal()) {
-                document.body.style.overflow = 'auto';
-                return;
-            }
-            openLegal(1);
-        }
-
-        function setStepIndicators(step) {
-            const s1 = document.getElementById('step-indicator-1');
-            const s2 = document.getElementById('step-indicator-2');
-            if (step === 1) {
-                s1.classList.add('text-white');
-                s1.classList.remove('text-gray-600');
-                s2.classList.remove('text-white');
-            } else {
-                s1.classList.remove('text-white');
-                s1.classList.add('text-gray-600');
-                s2.classList.add('text-white');
-            }
-        }
-
-        function prepareStep1() {
-            setStepIndicators(1);
-            stepTrack.style.transform = 'translateX(0%)';
-            const scrollEl = document.getElementById('scroll-oferta');
-            scrollEl.scrollTop = 0;
-            step1Ready = false;
-            initClauseReveal(scrollEl);
-            setupScrollGate('scroll-oferta', 'btn-step1-next', 'timer-ring-1', 'btn-step1-label', 'step1-hint', 'Далі', finishStep1Check);
-        }
-
-        function prepareStep2() {
-            setStepIndicators(2);
-            stepTrack.style.transform = 'translateX(-50%)';
-            generateContractMeta();
-
-            step2ReadReady = false;
-            checkboxChecked = false;
-            checkboxEl.classList.add('locked');
-            checkboxEl.classList.remove('checked');
-            checkboxEl.querySelector('i').classList.add('hidden');
-            document.getElementById('btn-submit').disabled = true;
-
-            const scrollEl = document.getElementById('scroll-dogovir');
-            scrollEl.scrollTop = 0;
-            initClauseReveal(scrollEl);
-            setupScrollGate('scroll-dogovir', 'btn-submit', 'timer-ring-2', 'btn-submit-label', 'step2-hint', 'Оформити замовлення', unlockCheckbox);
-        }
-
-        function openLegal(step) {
-            legalOverlay.classList.remove('dismissed');
-            legalOverlay.classList.add('visible');
-            document.body.style.overflow = 'hidden';
-            if (step === 2) prepareStep2();
-            else prepareStep1();
-        }
-
-        function updateOverallProgress(step, ratio) {
-            const base = step === 1 ? 0 : 50;
-            progressFill.style.width = (base + ratio * 50) + '%';
-        }
-
-        function initClauseReveal(container) {
-            const clauses = container.querySelectorAll('.clause');
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(e => {
-                    if (e.isIntersecting) e.target.classList.add('revealed');
-                });
-            }, { root: container, threshold: 0.15 });
-            clauses.forEach(c => obs.observe(c));
-        }
-
-        const scrollGates = {};
-
-        function setupScrollGate(scrollElId, btnId, ringId, labelId, hintId, doneLabel, onReadyCheck) {
-            if (scrollGates[scrollElId]) {
-                scrollGates[scrollElId].teardown();
-            }
-
-            const scrollEl = document.getElementById(scrollElId);
-            const btn = document.getElementById(btnId);
-            const ring = document.getElementById(ringId);
-            const label = document.getElementById(labelId);
-            const hint = document.getElementById(hintId);
-            let reachedBottom = false;
-            let timerStarted = false;
-            let unlocked = false;
-            let secondsLeft = WAIT_SECONDS;
-            let tick = null;
-            const circumference = 62.8;
-
-            btn.disabled = true;
-            ring.classList.add('hidden');
-            ring.querySelector('.fg').style.strokeDashoffset = String(circumference);
-            label.textContent = doneLabel === 'Далі' ? 'Далі' : doneLabel;
-            hint.innerHTML = '<i class="fas fa-arrow-down animate-bounce"></i> Прогорніть документ до кінця';
-
-            function getScrollRatio() {
-                const scrollable = scrollEl.scrollHeight - scrollEl.clientHeight;
-                if (scrollable <= 8) return -1;
-                return scrollEl.scrollTop / scrollable;
-            }
-
-            function onScroll() {
-                const ratio = getScrollRatio();
-                if (ratio < 0) {
-                    const step = scrollElId === 'scroll-oferta' ? 1 : 2;
-                    updateOverallProgress(step, 0);
-                    return;
-                }
-
-                const step = scrollElId === 'scroll-oferta' ? 1 : 2;
-                updateOverallProgress(step, Math.min(ratio, 1));
-
-                if (!reachedBottom && ratio >= REQUIRED_SCROLL_THRESHOLD) {
-                    reachedBottom = true;
-                    hint.innerHTML = '<i class="fas fa-hourglass-half"></i> Зачекайте, документ перевіряється...';
-                    startWaitTimer();
-                }
-            }
-
-            function startWaitTimer() {
-                if (timerStarted || unlocked) return;
-                timerStarted = true;
-                ring.classList.remove('hidden');
-                label.textContent = `${WAIT_SECONDS}с`;
-
-                tick = setInterval(() => {
-                    secondsLeft -= 1;
-                    const offset = circumference * (secondsLeft / WAIT_SECONDS);
-                    ring.querySelector('.fg').style.strokeDashoffset = offset;
-                    label.textContent = secondsLeft > 0 ? `${secondsLeft}с` : doneLabel;
-
-                    if (secondsLeft <= 0) {
-                        clearInterval(tick);
-                        tick = null;
-                        unlocked = true;
-                        btn.disabled = false;
-                        ring.classList.add('hidden');
-                        hint.innerHTML = '<i class="fas fa-check text-green-400"></i> Документ прочитано';
-                        if (onReadyCheck) onReadyCheck();
-                    }
-                }, 1000);
-            }
-
-            function maybeStartIfFits() {
-                const tryFit = () => {
-                    if (timerStarted || unlocked || reachedBottom) return;
-                    const ratio = getScrollRatio();
-                    if (ratio < 0 && scrollEl.scrollHeight > 40) {
-                        reachedBottom = true;
-                        hint.innerHTML = '<i class="fas fa-hourglass-half"></i> Зачекайте, документ перевіряється...';
-                        startWaitTimer();
-                    } else {
-                        onScroll();
-                    }
-                };
-                requestAnimationFrame(() => requestAnimationFrame(tryFit));
-                setTimeout(tryFit, 450);
-            }
-
-            scrollEl.addEventListener('scroll', onScroll);
-            maybeStartIfFits();
-
-            scrollGates[scrollElId] = {
-                teardown() {
-                    scrollEl.removeEventListener('scroll', onScroll);
-                    if (tick) clearInterval(tick);
-                }
-            };
-        }
-
-        let step1Ready = false;
-        let step2ReadReady = false;
-        function finishStep1Check() { step1Ready = true; }
-
-        document.getElementById('btn-step1-next').addEventListener('click', () => {
-            if (!step1Ready) return;
-            prepareStep2();
-        });
-
-        document.getElementById('btn-back-step1').addEventListener('click', () => {
-            prepareStep1();
-        });
-
-        document.getElementById('btn-close-legal').addEventListener('click', () => {
-            dismissLegalModal();
-        });
-
-        document.getElementById('nav-oferta').addEventListener('click', () => openLegal(1));
-        document.getElementById('nav-dogovir').addEventListener('click', () => openLegal(2));
-
-        function generateContractMeta() {
-            const now = new Date();
-            const y = now.getFullYear();
-            const m = String(now.getMonth() + 1).padStart(2, '0');
-            const d = String(now.getDate()).padStart(2, '0');
-            const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-            const contractNumber = `XDEVS-${y}${m}${d}-${rand}`;
-            const contractDate = `${d}.${m}.${y}`;
-
-            document.getElementById('contract-number').textContent = contractNumber;
-            document.getElementById('contract-date').textContent = contractDate;
-
-            window._xdevsContract = { number: contractNumber, date: contractDate };
-        }
-
-        const checkboxEl = document.getElementById('agree-checkbox');
-        const checkboxWrap = document.getElementById('agree-checkbox-wrap');
-        let checkboxChecked = false;
-
-        function unlockCheckbox() {
-            step2ReadReady = true;
-            checkboxEl.classList.remove('locked');
-            document.getElementById('btn-submit').disabled = true;
-            validateSubmitAvailability();
-        }
-
-        checkboxWrap.addEventListener('click', () => {
-            if (checkboxEl.classList.contains('locked')) return;
-            checkboxChecked = !checkboxChecked;
-            checkboxEl.classList.toggle('checked', checkboxChecked);
-            checkboxEl.querySelector('i').classList.toggle('hidden', !checkboxChecked);
-            validateSubmitAvailability();
-        });
-
-        const REQUIRED_FIELDS = [
-            'f-customer', 'f-product-name', 'f-product-short',
-            'f-total-cost', 'f-prepay-amount', 'f-prepay-done', 'f-remainder'
-        ];
-
-        function clearFieldError(id) {
-            const el = document.getElementById(id);
-            el.classList.remove('field-error');
-            const msg = document.querySelector(`.field-error-msg[data-for="${id}"]`);
-            if (msg) msg.classList.remove('show');
-        }
-
-        function setFieldError(id) {
-            const el = document.getElementById(id);
-            el.classList.add('field-error');
-            const msg = document.querySelector(`.field-error-msg[data-for="${id}"]`);
-            if (msg) msg.classList.add('show');
-        }
-
-        REQUIRED_FIELDS.forEach(id => {
-            document.getElementById(id).addEventListener('input', () => clearFieldError(id));
-            document.getElementById(id).addEventListener('change', () => clearFieldError(id));
-        });
-        document.getElementById('f-confirmation').addEventListener('input', () => clearFieldError('f-confirmation'));
-
-        function validateSubmitAvailability() {
-            document.getElementById('btn-submit').disabled = !(step2ReadReady && checkboxChecked);
-        }
-
-        function validateForm() {
-            let valid = true;
-            REQUIRED_FIELDS.forEach(id => {
-                const val = document.getElementById(id).value.trim();
-                if (!val) {
-                    setFieldError(id);
-                    valid = false;
-                } else {
-                    clearFieldError(id);
-                }
-            });
-
-            const confirmation = document.getElementById('f-confirmation').value.trim();
-            if (confirmation !== 'Згоден з ТЗ та Офертою') {
-                setFieldError('f-confirmation');
-                valid = false;
-            } else {
-                clearFieldError('f-confirmation');
-            }
-
-            return valid;
-        }
-
-        document.getElementById('btn-submit').addEventListener('click', async () => {
-            const btn = document.getElementById('btn-submit');
-            if (btn.disabled) return;
-
-            if (!checkboxChecked) {
-                showToast("Спочатку підтвердіть згоду з умовами");
-                return;
-            }
-
-            if (!validateForm()) {
-                showToast("Заповніть усі обов'язкові поля коректно");
-                return;
-            }
-
-            btn.disabled = true;
-            const label = document.getElementById('btn-submit-label');
-            const originalLabel = label.textContent;
-            label.textContent = 'Надсилання...';
-
-            const payload = buildDiscordPayload();
-
-            try {
-                const res = await fetch(WEBHOOK_PROXY_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (res.ok) {
-                    dismissLegalModal();
-                } else {
-                    label.textContent = originalLabel;
-                    btn.disabled = false;
-                    showToast("Помилка надсилання. Спробуйте ще раз");
-                }
-            } catch (err) {
-                label.textContent = originalLabel;
-                btn.disabled = false;
-                showToast("Немає з'єднання. Перевірте інтернет");
-            }
-        });
-
-        function buildDiscordPayload() {
-            const c = window._xdevsContract || { number: '—', date: '—' };
-            const val = id => document.getElementById(id).value.trim() || '—';
-
-            return {
-                embeds: [{
-                    title: `Нове замовлення № ${c.number}`,
-                    color: 0xffffff,
-                    fields: [
-                        { name: "Дата укладення", value: c.date, inline: true },
-                        { name: "Замовник", value: val('f-customer'), inline: true },
-                        { name: "Назва продукту", value: val('f-product-name') },
-                        { name: "Короткий опис", value: val('f-product-short') },
-                        { name: "Детальний опис", value: val('f-product-long') },
-                        { name: "Термін виконання", value: val('f-deadline'), inline: true },
-                        { name: "Загальна вартість", value: val('f-total-cost'), inline: true },
-                        { name: "Передплата (50%)", value: val('f-prepay-amount'), inline: true },
-                        { name: "Передплата оплачена?", value: val('f-prepay-done'), inline: true },
-                        { name: "Залишок (50%)", value: val('f-remainder'), inline: true },
-                        { name: "Підтвердження замовника", value: val('f-confirmation') }
-                    ],
-                    footer: { text: "XDEVS Legal — Договір-замовлення" },
-                    timestamp: new Date().toISOString()
-                }]
-            };
-        }
-
-        function dismissLegalModal() {
-            markLegalSeen();
-            legalOverlay.classList.add('dismissed');
-            legalOverlay.classList.remove('visible');
-            document.body.style.overflow = 'auto';
-        }
-
-        document.body.style.overflow = 'hidden';
-        legalOverlay.addEventListener('transitionend', (e) => {
-            if (e.target !== legalOverlay) return;
-            if (legalOverlay.classList.contains('dismissed')) {
-                document.body.style.overflow = 'auto';
-            }
-        });
-    </script>
+    <script src="js/legal-gate.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
