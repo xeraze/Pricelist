@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XDEVS | Public Offer</title>
+    <link rel="icon" type="image/png" href="avatar.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="antialiased selection:bg-white selection:text-black offer-page">
+
+    <div class="legal-modal">
+        <div class="flex items-center justify-between px-6 pt-5 pb-3">
+            <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500">
+                <span class="text-white">Public Offer</span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
+                <i class="fas fa-lock"></i> XDEVS Legal
+            </div>
+        </div>
+
+        <div class="legal-progress-track"><div class="legal-progress-fill" id="progress-fill"></div></div>
+
+        <div class="legal-scroll-area" id="scroll-offer">
+            <div class="flex items-center gap-3 mb-2 clause">
+                <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-scale-balanced"></i></div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Public offer</p>
+                    <h1 class="font-heading font-black text-lg uppercase tracking-tight">For the provision of digital services «XDEVS»</h1>
+                </div>
+            </div>
+
+            <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
+
+            <div class="clause mb-6">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. General provisions</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">1.1.</span> This document is a public offer by the developer operating under the brand «XDEVS» (hereinafter — the Contractor) regarding software development, scripts, and digital content services.</p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">1.2.</span> Pursuant to Articles 433 and 435 of the Civil Code of Ukraine, computer programs and source code are objects of copyright. Copyright belongs to the Contractor from the moment the work is created.</p>
+            </div>
+
+            <div class="clause mb-6">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Service fees and payment procedure</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.1.</span> Service fees are determined according to the current pricelist: <a href="index.html" class="text-white underline decoration-dotted">xeraze.github.io/Pricelist</a>.</p>
+                <div class="bg-white/5 border-l-2 border-white/30 rounded-r-lg p-4 mb-3">
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.2. Special terms.</span> Work performed by the Contractor within the non-commercial projects «Kherson, Ukraine» and «Sloboda Hospital [RP]» is unpaid (free of charge) at the Contractor’s personal initiative. This condition does not apply to any orders from third parties.</p>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.3.</span> Work on paid orders begins only after the Client pays a prepayment of 25% of the total cost.</p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.4.</span> The prepayment guarantees booking of the developer’s time and is non-refundable if the Client cancels the project during development.</p>
+            </div>
+
+            <div class="clause mb-6">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Copyright and file transfer</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> The Contractor retains all economic and non-economic copyright in the source code until the Client has paid 100% of the service fees.</p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.2.</span> Demonstration of results is provided via screenshots, video recording, or the Contractor’s test environment.</p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.3.</span> Delivery of source files (.lua, .rbxl, .json, etc.) to the Client occurs only after full payment of the remaining balance (75%).</p>
+            </div>
+
+            <div class="clause mb-6">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">4. Liability and rights protection</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.1.</span> The Client may not present the received code as their own (plagiarism) or resell it to third parties without the Contractor’s consent.</p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.2.</span> If the product is used without full payment, the Contractor may send a DMCA Notice to platform administrators (Roblox, Discord, GitHub) to have the content blocked.</p>
+            </div>
+
+            <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
+                <div class="h-px bg-white/10 flex-1"></div>
+                <span><i class="fas fa-circle-check mr-1"></i> End of document</span>
+                <div class="h-px bg-white/10 flex-1"></div>
+            </div>
+        </div>
+
+        <div class="legal-footer flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="offer-hint">
+                <i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document
+            </div>
+            <a id="btn-back-pricelist" href="index.html" aria-disabled="true" class="legal-footer-btn glass-card border-white/20 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 pointer-events-none opacity-35">
+                <span id="btn-back-label">Back to pricelist</span>
+                <svg class="timer-ring hidden" id="timer-ring-offer" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/legal-gate.js"></script>
+    <script>
+        (function () {
+            const btn = document.getElementById('btn-back-pricelist');
+            const scrollEl = document.getElementById('scroll-offer');
+            window.XDEVS.initClauseReveal(scrollEl);
+
+            Object.defineProperty(btn, 'disabled', {
+                get() { return btn.getAttribute('aria-disabled') === 'true'; },
+                set(v) {
+                    if (v) {
+                        btn.setAttribute('aria-disabled', 'true');
+                        btn.classList.add('pointer-events-none', 'opacity-35');
+                        btn.classList.remove('opacity-100');
+                    } else {
+                        btn.setAttribute('aria-disabled', 'false');
+                        btn.classList.remove('pointer-events-none', 'opacity-35');
+                    }
+                }
+            });
+
+            window.XDEVS.setupScrollGate({
+                scrollId: 'scroll-offer',
+                btnId: 'btn-back-pricelist',
+                ringId: 'timer-ring-offer',
+                labelId: 'btn-back-label',
+                hintId: 'offer-hint',
+                progressId: 'progress-fill',
+                doneLabel: 'Back to pricelist'
+            });
+        })();
+    </script>
+</body>
+</html>
