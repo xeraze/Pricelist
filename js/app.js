@@ -38,7 +38,8 @@
         let width, height, particles = [];
         const mobile = window.matchMedia('(max-width: 768px)').matches;
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const drawLines = !mobile && !reduced;
+        const linkDist = mobile ? 90 : 120;
+        const maxCount = mobile ? 55 : 130;
 
         function resize() {
             width = canvas.width = window.innerWidth;
@@ -50,10 +51,10 @@
         function Particle() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.35;
-            this.vy = (Math.random() - 0.5) * 0.35;
-            this.radius = Math.random() * 1.4;
-            this.baseAlpha = Math.random() * 0.45 + 0.1;
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = (Math.random() - 0.5) * 0.4;
+            this.radius = Math.random() * 1.5;
+            this.baseAlpha = Math.random() * 0.5 + 0.1;
         }
         Particle.prototype.update = function () {
             this.x += this.vx; this.y += this.vy;
@@ -70,8 +71,8 @@
         function initParticles() {
             particles = [];
             if (reduced) return;
-            const density = mobile ? 28000 : 18000;
-            const count = Math.min(90, Math.floor((width * height) / density));
+            const density = mobile ? 22000 : 14000;
+            const count = Math.min(maxCount, Math.floor((width * height) / density));
             for (let i = 0; i < count; i++) particles.push(new Particle());
         }
         initParticles();
@@ -82,16 +83,15 @@
                 const p = particles[i];
                 p.update();
                 p.draw();
-                if (!drawLines) continue;
                 for (let j = i + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dx = p.x - p2.x;
                     const dy = p.y - p2.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
+                    if (dist < linkDist) {
                         ctx.beginPath();
-                        ctx.strokeStyle = 'rgba(255,255,255,' + (0.12 - (dist / 100) * 0.12) + ')';
-                        ctx.lineWidth = 0.5;
+                        ctx.strokeStyle = 'rgba(255,255,255,' + (0.15 - (dist / linkDist) * 0.15) + ')';
+                        ctx.lineWidth = 0.6;
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
                         ctx.stroke();
@@ -120,10 +120,8 @@
     function flyLogoToNav(done) {
         const brandRect = loaderBrand.getBoundingClientRect();
         const navRect = navBrand.getBoundingClientRect();
-        const scale = 0.38;
-        const flyX = (navRect.left + navRect.width / 2) - (brandRect.left + brandRect.width / 2);
-        const flyY = (navRect.top + navRect.height / 2) - (brandRect.top + brandRect.height / 2)
-            + (brandRect.height * (1 - scale)) / 2 * 0.15;
+        const flyX = navRect.left - brandRect.left;
+        const flyY = navRect.top - brandRect.top;
         loaderBrand.style.setProperty('--fly-x', flyX + 'px');
         loaderBrand.style.setProperty('--fly-y', flyY + 'px');
         loadingScreen.classList.add('done');
