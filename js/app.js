@@ -19,9 +19,14 @@
         try { localStorage.setItem(LEGAL_SEEN_KEY, '1'); } catch (_) {}
     }
 
-    function showToast(text) {
+    function showToast(text, isError) {
         const toast = document.getElementById('toast');
+        const icon = toast.querySelector('i');
         document.getElementById('toast-text').textContent = text;
+        icon.classList.toggle('fa-check-circle', !isError);
+        icon.classList.toggle('fa-circle-exclamation', Boolean(isError));
+        icon.classList.toggle('text-red-400', Boolean(isError));
+        icon.classList.toggle('text-white', !isError);
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3200);
     }
@@ -382,11 +387,11 @@
         const btn = document.getElementById('btn-submit');
         if (btn.disabled) return;
         if (!checkboxChecked) {
-            showToast('Please confirm you agree with the Offer');
+            showToast('Please confirm you agree with the Offer', true);
             return;
         }
         if (!validateForm()) {
-            showToast('Please fill in all required fields');
+            showToast('Please fill in all required fields', true);
             return;
         }
 
@@ -406,12 +411,12 @@
             } else {
                 label.textContent = original;
                 validateSubmitAvailability();
-                showToast('Submit failed. Please try again');
+                showToast('Submit failed. Please try again', true);
             }
         } catch (_) {
             label.textContent = original;
             validateSubmitAvailability();
-            showToast('No connection. Check your internet');
+            showToast('No connection. Check your internet', true);
         }
     });
 
