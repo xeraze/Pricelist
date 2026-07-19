@@ -365,3 +365,8 @@ select.field-input option {
         transition-duration: 0.01ms !important;
     }
 }
+
+#nav-offer,
+#nav-order {
+    text-transform: uppercase;
+}
