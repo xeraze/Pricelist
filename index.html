@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XDEVS | Pricelist</title>
+    <link rel="icon" type="image/png" href="avatar.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+    <canvas id="particles-canvas"></canvas>
+
+    <div id="loading-screen">
+        <div class="loader-pulse" aria-hidden="true"></div>
+        <div class="loader-brand" id="loader-brand">
+            <img src="avatar.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <span class="loader-fallback-icon"><i class="fas fa-code"></i></span>
+            XDEVS<span class="dot">.</span>
+        </div>
+        <div class="loader-meta">
+            <div class="loader-bar-track"><div class="loader-bar-fill" id="loader-bar"></div></div>
+            <div class="loader-text" id="loader-text">Initializing...</div>
+        </div>
+    </div>
+
+    <!-- OFFER MODAL (nav) -->
+    <div id="offer-overlay" class="modal-overlay">
+        <div class="legal-modal">
+            <div class="flex items-center justify-between px-6 pt-5 pb-3">
+                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500">
+                    <span class="text-white">Public Offer</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
+                        <i class="fas fa-lock"></i> XDEVS Legal
+                    </div>
+                    <button type="button" id="btn-close-offer" class="modal-close-btn w-8 h-8 rounded-full border border-white/10 text-gray-500 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center" title="Close" aria-label="Close">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="legal-progress-track"><div class="legal-progress-fill" id="progress-fill-offer"></div></div>
+
+            <div class="legal-scroll-area" id="scroll-offer-modal">
+                <div class="flex items-center gap-3 mb-2 clause">
+                    <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-scale-balanced"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Public offer</p>
+                        <h2 class="font-heading font-black text-lg uppercase tracking-tight">For the provision of digital services «XDEVS»</h2>
+                    </div>
+                </div>
+
+                <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. General provisions</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">1.1.</span> This document is a public offer by the developer operating under the brand «XDEVS» (hereinafter — the Contractor) regarding software development, scripts, and digital content services.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">1.2.</span> Pursuant to Articles 433 and 435 of the Civil Code of Ukraine, computer programs and source code are objects of copyright. Copyright belongs to the Contractor from the moment the work is created.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Service fees and payment procedure</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.1.</span> Service fees are determined according to the current pricelist: <span class="text-white underline decoration-dotted">xeraze.github.io/Pricelist</span>.</p>
+                    <div class="bg-white/5 border-l-2 border-white/30 rounded-r-lg p-4 mb-3">
+                        <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.2. Special terms.</span> Work performed by the Contractor within the non-commercial project «Sloboda Hospital [RP]» is unpaid (free of charge) at the Contractor’s personal initiative. This condition does not apply to any orders from third parties.</p>
+                    </div>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">2.3.</span> Work on paid orders begins only after the Client pays a prepayment of 25% of the total cost.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.4.</span> The prepayment guarantees booking of the developer’s time and is non-refundable if the Client cancels the project during development.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Copyright and file transfer</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> The Contractor retains all economic and non-economic copyright in the source code until the Client has paid 100% of the service fees.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.2.</span> Demonstration of results is provided via screenshots, video recording, or the Contractor’s test environment.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.3.</span> Delivery of source files (.lua, .rbxl, .json, etc.) to the Client occurs only after full payment of the remaining balance (75%).</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">4. Liability and rights protection</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.1.</span> The Client may not present the received code as their own (plagiarism) or resell it to third parties without the Contractor’s consent.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.2.</span> If the product is used without full payment, the Contractor may send a DMCA Notice to platform administrators (Roblox, Discord, GitHub) to have the content blocked.</p>
+                </div>
+
+                <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
+                    <div class="h-px bg-white/10 flex-1"></div>
+                    <span><i class="fas fa-circle-check mr-1"></i> End of document</span>
+                    <div class="h-px bg-white/10 flex-1"></div>
+                </div>
+            </div>
+
+            <div class="legal-footer flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="offer-modal-hint">
+                    <i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document
+                </div>
+                <button id="btn-offer-done" disabled class="legal-footer-btn glass-card border-white/20 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                    <span id="btn-offer-done-label">Continue</span>
+                    <svg class="timer-ring hidden" id="timer-ring-offer-modal" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER CONTRACT MODAL -->
+    <div id="order-overlay" class="modal-overlay">
+        <div class="legal-modal">
+            <div class="flex items-center justify-between px-6 pt-5 pb-3">
+                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500">
+                    <span class="text-white">Order contract</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
+                        <i class="fas fa-lock"></i> XDEVS Legal
+                    </div>
+                    <button type="button" id="btn-close-order" class="w-8 h-8 rounded-full border border-white/10 text-gray-500 hover:text-white hover:border-white/30 transition-colors flex items-center justify-center" title="Close" aria-label="Close">
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="legal-progress-track"><div class="legal-progress-fill" id="progress-fill-order"></div></div>
+
+            <div class="legal-scroll-area" id="scroll-order">
+                <div class="flex items-center gap-3 mb-2 clause">
+                    <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-file-signature"></i></div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Order contract № <span id="contract-number" class="text-white font-mono">—</span></p>
+                        <h2 class="font-heading font-black text-lg uppercase tracking-tight">XDEVS order form</h2>
+                    </div>
+                </div>
+
+                <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
+
+                <div class="clause grid grid-cols-2 gap-4 mb-6 text-xs">
+                    <div class="glass-card rounded-xl p-3">
+                        <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Contractor</p>
+                        <p class="text-white font-bold">XDEVS</p>
+                        <p class="text-gray-400">Zakirko Dmytro Dmytrovych</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-3">
+                        <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Date</p>
+                        <p class="text-white font-bold font-mono" id="contract-date">—</p>
+                    </div>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Client</h3>
+                    <label class="block text-xs text-gray-400 mb-1.5">Name + Discord / email / t.me / etc. <span class="req-star">*</span></label>
+                    <input type="text" id="f-customer" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="e.g. Dmytro + xeraze. or email">
+                    <p class="field-error-msg" data-for="f-customer">Required — how we can contact you.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. Subject of the order (ToR)</h3>
+                    <label class="block text-xs text-gray-400 mb-1.5">Product name <span class="req-star">*</span></label>
+                    <input type="text" id="f-product-name" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="e.g. Discord Bot">
+                    <p class="field-error-msg" data-for="f-product-name">Required field.</p>
+
+                    <label class="block text-xs text-gray-400 mb-1.5 mt-4">Short description <span class="req-star">*</span></label>
+                    <textarea id="f-product-short" rows="2" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1 resize-none" placeholder="A few sentences about the task"></textarea>
+                    <p class="field-error-msg" data-for="f-product-short">Required field.</p>
+
+                    <label class="block text-xs text-gray-400 mb-1.5 mt-4">Detailed description <span class="text-gray-600">(optional)</span></label>
+                    <textarea id="f-product-long" rows="4" class="field-input w-full rounded-lg px-3 py-2.5 text-sm resize-none" placeholder="Technical details, wishes, references..."></textarea>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Timeline and payment terms</h3>
+
+                    <label class="block text-xs text-gray-400 mb-1.5">Deadline <span class="text-gray-600">(optional)</span></label>
+                    <input type="text" id="f-deadline" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-4" placeholder="e.g. by 25.07.2026">
+
+                    <label class="block text-xs text-gray-400 mb-1.5">Total cost <span class="req-star">*</span></label>
+                    <input type="text" id="f-total-cost" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="e.g. 149.99 UAH">
+                    <p class="field-error-msg" data-for="f-total-cost">Required field.</p>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1.5">Prepayment (25%) <span class="req-star">*</span></label>
+                            <input type="text" id="f-prepay-amount" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Amount">
+                            <p class="field-error-msg" data-for="f-prepay-amount">Required field.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1.5">Paid? <span class="req-star">*</span></label>
+                            <select id="f-prepay-done" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1">
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <p class="field-error-msg" data-for="f-prepay-done">Required field.</p>
+                        </div>
+                    </div>
+
+                    <label class="block text-xs text-gray-400 mb-1.5 mt-4">Remainder due (75%) <span class="req-star">*</span></label>
+                    <input type="text" id="f-remainder" class="field-input w-full rounded-lg px-3 py-2.5 text-sm mb-1" placeholder="Paid after demonstration of the result">
+                    <p class="field-error-msg" data-for="f-remainder">Required field.</p>
+                </div>
+
+                <div class="clause mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Agreement</h3>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> By submitting this order, the Client confirms they have read and agree to the XDEVS Public Offer.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed mb-4"><span class="text-white font-bold">3.2.</span> The Client understands that source code will be delivered only after full payment.</p>
+                </div>
+
+                <div class="clause glass-card rounded-xl p-4 mb-6 flex items-center justify-between text-xs">
+                    <div>
+                        <p class="text-gray-500 uppercase tracking-widest text-[10px] mb-1">Contractor signature</p>
+                        <p class="text-white font-bold">Zakirko Dmytro Dmytrovych</p>
+                        <p class="text-gray-400 font-mono">xeraze.</p>
+                    </div>
+                    <i class="fas fa-signature text-2xl text-white/30"></i>
+                </div>
+
+                <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
+                    <div class="h-px bg-white/10 flex-1"></div>
+                    <span><i class="fas fa-circle-check mr-1"></i> End of document</span>
+                    <div class="h-px bg-white/10 flex-1"></div>
+                </div>
+            </div>
+
+            <div class="legal-footer">
+                <div class="flex items-center justify-between gap-3 flex-wrap mb-2.5">
+                    <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="order-hint">
+                        <i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document
+                    </div>
+                </div>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5 cursor-pointer select-none min-w-0" id="agree-checkbox-wrap">
+                        <div class="legal-checkbox locked" id="agree-checkbox"><i class="fas fa-check hidden"></i></div>
+                        <span class="text-xs text-gray-400 leading-snug">
+                            I agree with the
+                            <a href="offer.html" target="_blank" rel="noopener" class="text-white underline decoration-dotted hover:text-gray-200">Public Offer</a>
+                        </span>
+                    </div>
+                    <button id="btn-submit" disabled class="legal-footer-btn glass-card border-white/20 px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap flex-shrink-0">
+                        <span id="btn-submit-label">Submit order</span>
+                        <svg class="timer-ring hidden" id="timer-ring-order" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="success-overlay">
+        <div class="success-card">
+            <div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-5">
+                <i class="fas fa-check text-2xl text-white"></i>
+            </div>
+            <h3 class="font-heading font-black text-xl uppercase tracking-tight mb-3">Order submitted</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                Your application was sent successfully. Please wait for a reply — the developer will contact you using the contact details you provided.
+            </p>
+            <button type="button" id="btn-success-close" class="bg-white text-black px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-gray-200 transition-colors">
+                Back to pricelist
+            </button>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-10 left-1/2 glass-card px-6 py-3 rounded-full flex items-center gap-3 border-white/20">
+        <i class="fas fa-check-circle text-white"></i>
+        <span class="font-bold text-sm tracking-wide" id="toast-text">Discord username copied!</span>
+    </div>
+
+    <nav class="fixed w-full z-50 glass-card border-x-0 border-t-0 border-b border-white/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" id="nav-brand" class="font-heading font-black text-2xl tracking-tighter flex items-center gap-3 opacity-0">
+                <img src="avatar.png" alt="Logo" class="w-8 h-8 rounded-full border border-white/20" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <i class="fas fa-code text-white hidden"></i>
+                XDEVS<span class="text-gray-500">.</span>
+            </a>
+            <div class="flex items-center gap-4 md:gap-8 text-sm font-semibold tracking-widest uppercase text-gray-400">
+                <button type="button" id="nav-offer" class="hover:text-white transition-colors">Offer</button>
+                <button type="button" id="nav-order" class="hover:text-white transition-colors">Order</button>
+                <a href="#web" class="hidden md:inline hover:text-white transition-colors">Web</a>
+                <a href="#servers" class="hidden md:inline hover:text-white transition-colors">Servers</a>
+                <a href="#bots" class="hidden md:inline hover:text-white transition-colors">Bots</a>
+                <a href="#payment" class="hidden md:inline hover:text-white transition-colors">Payment</a>
+            </div>
+            <button onclick="copyDiscord()" class="bg-white text-black px-5 md:px-6 py-2 rounded-full font-bold uppercase text-xs tracking-wider hover:bg-gray-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]">
+                Discord
+            </button>
+        </div>
+    </nav>
+
+    <header class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative pt-20">
+        <div class="glass-card px-5 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] text-gray-300 mb-8 border-white/10">
+            Professional Middle Full-Stack Services
+        </div>
+        <h1 class="text-5xl md:text-8xl font-heading font-black uppercase tracking-tighter mb-6 text-glow leading-tight">
+            Elevate Your <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600">Digital Presence</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl text-sm md:text-base mb-12 leading-relaxed">
+            High-quality development solutions. From reliable, custom-built web applications to innovative architectures for Discord servers and bots.
+        </p>
+        <a href="#web" class="animate-bounce w-14 h-14 rounded-full glass-card flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors cursor-pointer border-white/20">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-32">
+
+        <section id="web" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-globe"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">I. Website Development</h2>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Constructors</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6 leading-relaxed">Quick websites using standard online website builders (Google Sites, Tilda). Great for portfolios and simple landing pages.</p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <p class="text-2xl font-black text-white">49.99 UAH<span class="text-sm text-gray-500 font-normal">/ 0.99 USD</span></p>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Constructors + Custom Code</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6 leading-relaxed">Enhanced websites created by using website builders and HTML/CSS/JS code snippets to make unique design elements and interactive widgets.</p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <p class="text-xs uppercase tracking-widest text-gray-500 mb-1">Starting at</p>
+                        <p class="text-2xl font-black text-white">99.99 UAH <span class="text-sm text-gray-500 font-normal">/ 1.99 USD</span></p>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-2xl flex flex-col h-full relative overflow-hidden border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+                    <div class="absolute top-0 right-0 bg-white text-black text-[10px] font-black uppercase px-4 py-1.5 rounded-bl-lg tracking-wider">Most Popular</div>
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Custom Code</h3>
+                    <p class="text-gray-400 text-sm flex-grow mb-6 leading-relaxed">Built from scratch. High performance and full freedom in logic construction. For serious web applications and unique requirements.</p>
+                    <div class="mt-auto border-t border-white/10 pt-4">
+                        <p class="text-2xl font-black text-white">149.99 UAH <span class="text-sm text-gray-500 font-normal">/ 2.99 USD</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servers" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fab fa-discord"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">II. Discord Servers Development</h2>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8 text-sm text-gray-300 flex items-start gap-4">
+                <i class="fas fa-info-circle text-white mt-1 text-lg"></i>
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-1">Architecture & Roles</h4>
+                    <p>Configuration of public bots and full Discord server setup (channels, roles, permissions, automated moderation, emojis, stickers, travel guide, and much more) are included by default in these packages, but they can also be ordered separately absolutely for free (for example, you can order free setup for channels and roles separately (2 settings) at no cost, but once you exceed this free limit, you will need to pay a quarter from the initial cost of a full Discord server setup for each new setup).</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Creation from Scratch</h3>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Full development starting from empty/new server to fully functional and secure community hub, with user adaptation system and aesthetic design.</p>
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="text-3xl font-black text-white">249.99 UAH <span class="text-lg text-gray-500 font-normal">/ 5.99 USD</span></p>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold mb-3 font-heading uppercase tracking-wide">Reconstruction</h3>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">Restructuring of the existing server. Correcting access permissions, design, and modernization of the community structure.</p>
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="text-3xl font-black text-white">149.99 UAH <span class="text-lg text-gray-500 font-normal">/ 2.99 USD</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bots" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-robot"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">III. Discord & Telegram Bots Development</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl border-l-4 border-l-white">
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm">Project Consultations</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        The first <span class="text-white font-bold">2 sessions are FREE</span> to discuss architecture and Technical Specifications (SRS).
+                    </p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm">Extra Support</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        From the 3rd session, a small rate of <span class="text-white font-bold">49 UAH or 0.99 USD / session</span> applies to cover development time.
+                    </p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-ghost text-gray-400"></i> BotGhost Framework (Discord)</h3>
+                    <div class="space-y-3">
+                        <div class="glass-card p-4 rounded-xl flex justify-between items-center border-l-2 border-l-white">
+                            <span class="text-sm font-bold uppercase tracking-wide">Base Setup</span>
+                            <span class="text-white font-mono font-bold">99 UAH / 1.99 USD</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex justify-between items-center text-gray-400">
+                            <span class="text-sm italic">Additional Modules</span>
+                            <span class="font-mono text-xs">from 49 UAH / 0.99 USD</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-terminal text-gray-400"></i> Pure Code (Py / Java)</h3>
+                    <div class="space-y-3">
+                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
+                            <span class="text-sm font-bold">Base Bot (MVP)</span>
+                            <span class="text-white font-mono text-xs">from 149 UAH / 2.99 USD</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex justify-between items-center">
+                            <span class="text-sm font-bold">API & DB Systems</span>
+                            <span class="text-white font-mono text-xs">from 199 UAH / 4.99 USD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="payment" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fas fa-wallet"></i></div>
+                <h2 class="text-3xl font-heading font-black uppercase tracking-tight">IV. Payment Methods</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fas fa-credit-card text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Direct</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">Mastercard</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fab fa-discord text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Discord Nitro</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">Basic (129.99 or 1299.99 UAH / 2.99 or 29.99 USD)<br>Full (449.99 or 4399.99 UAH / 9.99 or 99.99 USD)</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fas fa-rocket text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Server Boosts</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">XDEVS Forum<br>1 Boost = 199.99 UAH / 4.99 USD</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+                    <i class="fab fa-steam text-2xl mb-4 text-white"></i>
+                    <h4 class="font-bold text-sm mb-1 uppercase tracking-tighter">Another Methods</h4>
+                    <p class="text-[10px] text-gray-500 leading-tight">Skins / Keys / Items / Game Accounts / Game Value<br>(in all of these cases, the commission is paid by you)</p>
+                </div>
+            </div>
+            <div class="bg-white/5 border border-white/20 rounded-2xl p-8 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+                <h4 class="text-white font-black uppercase tracking-widest mb-4 text-lg">Terms of Service</h4>
+                <div class="max-w-3xl mx-auto space-y-4 text-sm text-gray-400">
+                    <p>To ensure individual attention for each client, orders are scheduled with a mandatory break of <strong class="text-white border-b border-white pb-0.5">3 DAYS</strong>.</p>
+                    <div class="mt-6 p-4 bg-black/50 rounded-xl border border-white/10">
+                        <p class="text-xs text-white font-mono uppercase tracking-wider leading-relaxed">
+                            If payment is not received within <span class="font-black text-lg">10 minutes</span> of project handover, site/bot/project will be immediately disabled.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="socials" class="border-t border-white/10 mt-20 bg-[#020202] relative z-10">
+        <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col items-center">
+            <h3 class="font-heading font-black text-3xl mb-10 uppercase tracking-widest text-glow">XDEVS Contacts</h3>
+            <div class="flex gap-6 mb-14">
+                <a href="https://xeraze.github.io/xeraze/personalbio.html" target="_blank" class="w-16 h-16 rounded-full glass-card flex items-center justify-center text-2xl hover:bg-white hover:text-black hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                    <i class="fas fa-user-astronaut"></i>
+                </a>
+                <a href="https://guns.lol/xeraze" target="_blank" class="w-16 h-16 rounded-full glass-card flex items-center justify-center text-2xl hover:bg-white hover:text-black hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                    <i class="fas fa-crosshairs"></i>
+                </a>
+                <button onclick="copyDiscord()" class="w-16 h-16 rounded-full glass-card flex items-center justify-center text-2xl hover:bg-white hover:text-black hover:scale-110 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+                    <i class="fab fa-discord"></i>
+                </button>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <img src="avatar.png" alt="XDEVS" class="w-10 h-10 rounded-full border border-white/20 grayscale opacity-50" onerror="this.style.display='none';">
+                <p class="text-gray-600 text-xs font-mono uppercase tracking-[0.4em]">XDEVS © 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/legal-gate.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
