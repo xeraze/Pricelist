@@ -370,3 +370,36 @@ select.field-input option {
 #nav-order {
     text-transform: uppercase;
 }
+
+/* Language Switcher */
+#lang-switcher .lang-option {
+    color: #9ca3af;
+}
+#lang-switcher .lang-option:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+#lang-dropdown {
+    background: rgba(8, 8, 8, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+#lang-dropdown.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+}
+#lang-dropdown:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+#lang-btn {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+#lang-btn:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+}
