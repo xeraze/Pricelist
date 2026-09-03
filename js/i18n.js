@@ -21,14 +21,14 @@ const TRANSLATIONS = {
       title: "I. Website Development",
       constructors: "Web Page",
       "constructors.desc":
-        "Simple landing page or portfolio using website builders (Google Sites, Tilda). Quick setup, clean design, ready to launch.",
+        "Simple hand-written page. HTML, CSS, minimal JS. Clean layout, fast loading, ready to deploy.",
       "constructors.code": "Website",
       "constructors.code.desc":
-        "Full website with custom design elements and interactive widgets. Built with website builders + HTML/CSS/JS code for unique features.",
+        "Multi-page website with custom design and interactive features. Full HTML/CSS/JS, animations, forms, responsive layout.",
       starting: "Starting at",
       custom: "Web Portal",
       "custom.desc":
-        "Complex web application built from scratch. Full custom architecture, databases, user auth, APIs — for serious projects and unique requirements.",
+        "Complex website from scratch. Architecture, databases, user auth, APIs, admin panels — full stack for serious projects.",
       popular: "Most Popular",
     },
     servers: {
@@ -41,7 +41,7 @@ const TRANSLATIONS = {
         "Full development starting from empty/new server to fully functional and secure community hub, with user adaptation system and aesthetic design.",
       reconstruction: "Reconstruction",
       "reconstruction.desc":
-        "Restructuring of the existing server. Correcting access permissions, design, and modernization of the community structure.",
+        "Restructuring of the existing server. Correcting access permissions, design, and modernization of the server structure.",
       starting: "Starting at",
     },
     bots: {
@@ -54,16 +54,21 @@ const TRANSLATIONS = {
       "support.desc": "From the 3rd session, a small rate of",
       "support.desc2": "59 UAH or 1.29 USD / session",
       "support.desc3": "applies to cover development time.",
-      ghost: "BotGhost Framework (Discord)",
-      base: "Base Setup",
-      modules: "Additional Modules",
-      pure: "Pure Code (Py / Java)",
-      mvp: "Base Bot (MVP)",
-      api: "API & DB Systems",
+      simple: "Simple Bot",
+      "simple.desc":
+        "Lightweight hand-written bot. Basic commands, moderation, auto-responses. Clean code, fast deployment, no frameworks.",
+      custom: "Standard Bot",
+      "custom.desc":
+        "Hand-written bot from scratch in Python/JS. Unique logic, custom commands, event handling, everything you need.",
+      advanced: "Advanced Bot",
+      "advanced.desc":
+        "External APIs, databases, web dashboards, multi-platform support and more. Full integration with your services.",
+      starting: "Starting at",
+      popular: "Most Popular",
     },
     roblox: {
       title: "IV. Roblox Studio Scripting",
-      "lua.title": "Lua Scripting",
+      "lua.title": "Luau Scripting",
       "lua.desc":
         "Custom scripts, game mechanics, server/client logic, data systems, UI logic, and automation for Roblox experiences. All work is done in Lua/Luau.",
       simple: "Simple Scripts",
@@ -72,7 +77,7 @@ const TRANSLATIONS = {
       systems: "Game Systems",
       "systems.desc":
         "Economy, inventory, trading, ranking, quest systems, admin panels — complex interconnected logic with database.",
-      fullstack: "Full Stack",
+      fullstack: "Full-stack",
       "fullstack.desc":
         "Complete game logic from scratch: client-server architecture, DataStore, remote events, full automation of all systems.",
       starting: "Starting at",
@@ -169,7 +174,7 @@ const TRANSLATIONS = {
     nav: {
       offer: "Оферта",
       order: "Заказ",
-      web: "Сайты",
+      web: "Веб",
       servers: "Серверы",
       bots: "Боты",
       roblox: "Roblox",
@@ -177,8 +182,8 @@ const TRANSLATIONS = {
       payment: "Оплата",
     },
     header: {
-      badge: "Профессиональные услуги Full-Stack разработки",
-      title1: "Твоя идея,",
+      badge: "Профессиональные услуги Full-stack разработки",
+      title1: "Ваше видение",
       title2: "Мой код",
       subtitle:
         "Качественные решения для разработки. от надёжных веб-приложений до инновационных архитектур для Discord серверов и ботов.",
@@ -187,14 +192,14 @@ const TRANSLATIONS = {
       title: "I. Разработка сайтов",
       constructors: "Веб-страница",
       "constructors.desc":
-        "Простая лендинг-страница или портфолио на конструкторах (Google Sites, Tilda). Быстрая настройка, чистый дизайн, готова к запуску.",
+        "Простая рукописная страница. HTML, CSS, минимальный JS. Чистая вёрстка, быстрая загрузка, готова к деплою.",
       "constructors.code": "Сайт",
       "constructors.code.desc":
-        "Полноценный сайт с уникальным дизайном и интерактивными виджетами. Конструкторы + HTML/CSS/JS код для особых фич.",
+        "Многостраничный сайт с уникальным дизайном и интерактивом. Полный HTML/CSS/JS, анимации, формы, адаптив.",
       starting: "Цена от",
       custom: "Веб-портал",
       "custom.desc":
-        "Сложное веб-приложение с нуля. Полная архитектура, базы данных, авторизация, API — для серьёзных проектов и уникальных требований.",
+        "Сложное веб-приложение с нуля. Архитектура, базы данных, авторизация, API, админки — полный стек для серьёзных проектов.",
       popular: "Самый популярный",
     },
     servers: {
@@ -220,12 +225,17 @@ const TRANSLATIONS = {
       "support.desc": "С 3-й сессии небольшая ставка",
       "support.desc2": "59 грн или 1.29 USD / сессия",
       "support.desc3": "для покрытия времени разработки.",
-      ghost: "BotGhost Framework (Discord)",
-      base: "Базовая настройка",
-      modules: "Дополнительные модули",
-      pure: "Чистый код (Py / Java)",
-      mvp: "Базовый бот (MVP)",
-      api: "API и БД системы",
+      simple: "Простой бот",
+      "simple.desc":
+        "Лёгкий рукописный бот. Базовые команды, модерация, автоответы. Чистый код, быстрый деплой, без фреймворков.",
+      custom: "Кастомный бот",
+      "custom.desc":
+        "Рукописный бот с нуля на Python или Java. Уникальная логика, свои команды, обработка событий, под ваши задачи.",
+      advanced: "Бот + API и БД",
+      "advanced.desc":
+        "Продвинутый бот с внешними API, базами данных, веб-панелями, мультиплатформой. Полная интеграция с вашими сервисами.",
+      starting: "Цена от",
+      popular: "Самый популярный",
     },
     roblox: {
       title: "IV. Скриптинг в Roblox Studio",
@@ -353,14 +363,14 @@ const TRANSLATIONS = {
       title: "I. Розробка сайтів",
       constructors: "Веб-сторінка",
       "constructors.desc":
-        "Проста лендінг-сторінка або портфоліо на конструкторах (Google Sites, Tilda). Швидке налаштування, чистий дизайн, готова до запуску.",
+        "Проста рукописна сторінка. HTML, CSS, мінімальний JS. Чиста верстка, швидке завантаження, готова до деплою.",
       "constructors.code": "Сайт",
       "constructors.code.desc":
-        "Повноцінний сайт з унікальним дизайном та інтерактивними віджетами. Конструктори + HTML/CSS/JS код для особливих фіч.",
+        "Багатосторінковий сайт з унікальним дизайном та інтерактивом. Повний HTML/CSS/JS, анімації, форми, адаптив.",
       starting: "Ціна від",
       custom: "Веб-портал",
       "custom.desc":
-        "Складний веб-додаток з нуля. Повна архітектура, бази даних, авторизація, API — для серйозних проектів та унікальних вимог.",
+        "Складний веб-додаток з нуля. Архітектура, бази даних, авторизація, API, адмінки — повний стек для серйозних проектів.",
       popular: "Найпопулярніший",
     },
     servers: {
@@ -386,12 +396,17 @@ const TRANSLATIONS = {
       "support.desc": "З 3-ї сесії невелика ставка",
       "support.desc2": "59 грн або 1.29 USD / сесія",
       "support.desc3": "для покриття часу розробки.",
-      ghost: "BotGhost Framework (Discord)",
-      base: "Базове налаштування",
-      modules: "Додаткові модулі",
-      pure: "Чистий код (Py / Java)",
-      mvp: "Базовий бот (MVP)",
-      api: "API та БД системи",
+      simple: "Простий бот",
+      "simple.desc":
+        "Легкий рукописний бот. Базові команди, модерація, авто-відповіді. Чистий код, швидкий деплой, без фреймворків.",
+      custom: "Кастомний бот",
+      "custom.desc":
+        "Рукописний бот з нуля на Python або Java. Унікальна логіка, свої команди, обробка подій, під ваші задачі.",
+      advanced: "Бот + API та БД",
+      "advanced.desc":
+        "Просунутий бот з зовнішніми API, базами даних, веб-панелями, мультиплатформою. Повна інтеграція з вашими сервісами.",
+      starting: "Ціна від",
+      popular: "Найпопулярніший",
     },
     roblox: {
       title: "IV. Скриптинг в Roblox Studio",
