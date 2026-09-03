@@ -1,14 +1,3 @@
-/**
- * XDEVS Pricelist — Translations
- * ================================
- * Редактируй тексты здесь. Структура:
- *   en → English
- *   ru → Русский
- *   uk → Українська
- *
- * Формат: "ключ": "текст"
- * Группы: nav, header, web, servers, bots, roblox, apps, payment, footer, order, success, toast
- */
 const TRANSLATIONS = {
   en: {
     nav: {
@@ -22,24 +11,24 @@ const TRANSLATIONS = {
       payment: "Payment",
     },
     header: {
-      badge: "Professional Middle Full-Stack Services",
-      title1: "Elevate Your",
-      title2: "Digital Presence",
+      badge: "Professional Middle Full-stack Services",
+      title1: "Your Vision",
+      title2: "My Code",
       subtitle:
         "High-quality development solutions. From reliable, custom-built web applications to innovative architectures for Discord servers and bots.",
     },
     web: {
       title: "I. Website Development",
-      constructors: "Constructors",
+      constructors: "Web Page",
       "constructors.desc":
-        "Quick websites using standard online website builders (Google Sites, Tilda). Great for portfolios and simple landing pages.",
-      "constructors.code": "Constructors + Custom Code",
+        "Simple landing page or portfolio using website builders (Google Sites, Tilda). Quick setup, clean design, ready to launch.",
+      "constructors.code": "Website",
       "constructors.code.desc":
-        "Enhanced websites created by using website builders and HTML/CSS/JS code snippets to make unique design elements and interactive widgets.",
+        "Full website with custom design elements and interactive widgets. Built with website builders + HTML/CSS/JS code for unique features.",
       starting: "Starting at",
-      custom: "Custom Code",
+      custom: "Web Portal",
       "custom.desc":
-        "Built from scratch. High performance and full freedom in logic construction. For serious web applications and unique requirements.",
+        "Complex web application built from scratch. Full custom architecture, databases, user auth, APIs — for serious projects and unique requirements.",
       popular: "Most Popular",
     },
     servers: {
@@ -53,6 +42,7 @@ const TRANSLATIONS = {
       reconstruction: "Reconstruction",
       "reconstruction.desc":
         "Restructuring of the existing server. Correcting access permissions, design, and modernization of the community structure.",
+      starting: "Starting at",
     },
     bots: {
       title: "III. Discord & Telegram Bots Development",
@@ -85,6 +75,7 @@ const TRANSLATIONS = {
       fullstack: "Full Stack",
       "fullstack.desc":
         "Complete game logic from scratch: client-server architecture, DataStore, remote events, full automation of all systems.",
+      starting: "Starting at",
     },
     apps: {
       title: "V. Mobile & Desktop Applications",
@@ -187,23 +178,23 @@ const TRANSLATIONS = {
     },
     header: {
       badge: "Профессиональные услуги Full-Stack разработки",
-      title1: "Повысить свой",
-      title2: "Цифровой имидж",
+      title1: "Твоя идея,",
+      title2: "Мой код",
       subtitle:
         "Качественные решения для разработки. от надёжных веб-приложений до инновационных архитектур для Discord серверов и ботов.",
     },
     web: {
       title: "I. Разработка сайтов",
-      constructors: "Конструкторы",
+      constructors: "Веб-страница",
       "constructors.desc":
-        "Быстрые сайты на базе конструкторов (Google Sites, Tilda). Идеально для портфолио и простых лендингов.",
-      "constructors.code": "Конструкторы + код",
+        "Простая лендинг-страница или портфолио на конструкторах (Google Sites, Tilda). Быстрая настройка, чистый дизайн, готова к запуску.",
+      "constructors.code": "Сайт",
       "constructors.code.desc":
-        "Улучшенные сайты с использованием конструкторов и HTML/CSS/JS фрагментов для создания уникальных дизайнерских элементов и интерактивных виджетов.",
+        "Полноценный сайт с уникальным дизайном и интерактивными виджетами. Конструкторы + HTML/CSS/JS код для особых фич.",
       starting: "Цена от",
-      custom: "Код с нуля",
+      custom: "Веб-портал",
       "custom.desc":
-        "Создано с нуля. Высокая производительность и полная свобода в построении логики. Для серьёзных веб-приложений и уникальных требований.",
+        "Сложное веб-приложение с нуля. Полная архитектура, базы данных, авторизация, API — для серьёзных проектов и уникальных требований.",
       popular: "Самый популярный",
     },
     servers: {
@@ -217,6 +208,7 @@ const TRANSLATIONS = {
       reconstruction: "Реконструкция",
       "reconstruction.desc":
         "Реструктуризация существующего сервера. Исправление прав доступа, дизайна и модернизация структуры сообщества.",
+      starting: "Цена от",
     },
     bots: {
       title: "III. Разработка Discord & Telegram ботов",
@@ -249,6 +241,7 @@ const TRANSLATIONS = {
       fullstack: "Полный стек",
       "fullstack.desc":
         "Полная игровая логика с нуля: клиент-серверная архитектура, DataStore, удалённые события, полная автоматизация всех систем.",
+      starting: "Цена от",
     },
     apps: {
       title: "V. Мобильные и десктоп приложения",
@@ -351,23 +344,23 @@ const TRANSLATIONS = {
     },
     header: {
       badge: "Професійні послуги Full-Stack розробки",
-      title1: "Підвищити свій",
-      title2: "Цифровий імідж",
+      title1: "Твоя ідея,",
+      title2: "Мій код",
       subtitle:
         "Якісні рішення для розробки. від надійних веб-додатків до інноваційних архітектур для Discord серверів і ботів.",
     },
     web: {
       title: "I. Розробка сайтів",
-      constructors: "Конструктори",
+      constructors: "Веб-сторінка",
       "constructors.desc":
-        "Швидкі сайти на базі конструкторів (Google Sites, Tilda). Ідеально для портфоліо і простих лендінгів.",
-      "constructors.code": "Конструктори + код",
+        "Проста лендінг-сторінка або портфоліо на конструкторах (Google Sites, Tilda). Швидке налаштування, чистий дизайн, готова до запуску.",
+      "constructors.code": "Сайт",
       "constructors.code.desc":
-        "Покращені сайти з використанням конструкторів та HTML/CSS/JS фрагментів для створення унікальних дизайнерських елементів та інтерактивних віджетів.",
+        "Повноцінний сайт з унікальним дизайном та інтерактивними віджетами. Конструктори + HTML/CSS/JS код для особливих фіч.",
       starting: "Ціна від",
-      custom: "Код з нуля",
+      custom: "Веб-портал",
       "custom.desc":
-        "Створено з нуля. Висока продуктивність і повна свобода у побудові логіки. Для серйозних веб-додатків та унікальних вимог.",
+        "Складний веб-додаток з нуля. Повна архітектура, бази даних, авторизація, API — для серйозних проектів та унікальних вимог.",
       popular: "Найпопулярніший",
     },
     servers: {
@@ -381,6 +374,7 @@ const TRANSLATIONS = {
       reconstruction: "Реконструкція",
       "reconstruction.desc":
         "Реструктуризація існуючого сервера. Виправлення прав доступу, дизайну та модернізація структури спільноти.",
+      starting: "Ціна від",
     },
     bots: {
       title: "III. Розробка Discord & Telegram ботів",
@@ -413,6 +407,7 @@ const TRANSLATIONS = {
       fullstack: "Повний стек",
       "fullstack.desc":
         "Повна ігрова логіка з нуля: клієнт-серверна архітектура, DataStore, віддалені події, повна автоматизація всіх систем.",
+      starting: "Ціна від",
     },
     apps: {
       title: "V. Мобільні та десктоп додатки",
