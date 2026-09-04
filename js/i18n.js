@@ -997,6 +997,8 @@ const TRANSLATIONS = {
     var langCurrent = document.getElementById("lang-current");
     var langOptions = document.querySelectorAll(".lang-option");
 
+    if (langCurrent) langCurrent.textContent = getLang().toUpperCase();
+
     if (langBtn && langDropdown) {
       langBtn.addEventListener("click", function (e) {
         e.stopPropagation();
