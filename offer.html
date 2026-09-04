@@ -27,10 +27,30 @@
     <div class="legal-modal">
         <div class="flex items-center justify-between px-6 pt-5 pb-3">
             <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-gray-500">
-                <span class="text-white">Public Offer</span>
+                <span class="text-white" data-i18n="offer.badge">Public Offer</span>
             </div>
-            <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
-                <i class="fas fa-lock"></i> XDEVS
+            <div class="flex items-center gap-3">
+                <div class="relative" id="lang-switcher">
+                    <button type="button" id="lang-btn" class="hover:text-white transition-colors flex items-center gap-1.5 text-xs text-gray-500">
+                        <i class="fas fa-globe"></i>
+                        <span id="lang-current">EN</span>
+                        <i class="fas fa-chevron-down text-[8px]"></i>
+                    </button>
+                    <div id="lang-dropdown" class="absolute right-0 top-full mt-2 glass-card rounded-xl py-2 min-w-[120px] hidden z-50 border border-white/10">
+                        <button data-lang="en" class="lang-option w-full text-left px-4 py-2 text-xs uppercase tracking-wider hover:bg-white/10 transition-colors flex items-center gap-2">
+                            <span>EN</span><span class="text-gray-500">English</span>
+                        </button>
+                        <button data-lang="ru" class="lang-option w-full text-left px-4 py-2 text-xs uppercase tracking-wider hover:bg-white/10 transition-colors flex items-center gap-2">
+                            <span>RU</span><span class="text-gray-500">Русский</span>
+                        </button>
+                        <button data-lang="ua" class="lang-option w-full text-left px-4 py-2 text-xs uppercase tracking-wider hover:bg-white/10 transition-colors flex items-center gap-2">
+                            <span>UA</span><span class="text-gray-500">Українська</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-[10px] text-gray-600 font-mono">
+                    <i class="fas fa-lock"></i> XDEVS
+                </div>
             </div>
         </div>
 
@@ -40,111 +60,151 @@
             <div class="flex items-center gap-3 mb-2 clause">
                 <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm"><i class="fas fa-scale-balanced"></i></div>
                 <div>
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500">Public offer</p>
-                    <h1 class="font-heading font-black text-lg uppercase tracking-tight">For the provision of digital services «XDEVS»</h1>
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500" data-i18n="offer.title">Public offer</p>
+                    <h1 class="font-heading font-black text-lg uppercase tracking-tight" data-i18n="offer.heading">For the provision of digital services «XDEVS»</h1>
                 </div>
             </div>
 
             <svg class="divider-svg my-5 clause" viewBox="0 0 800 20"><line x1="0" y1="10" x2="360" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><line x1="440" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.25"/><rect x="393" y="3" width="14" height="14" fill="#ffffff" opacity="0.4" transform="rotate(45 400 10)"/></svg>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">1. General provisions</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">1.1.</span> This document is a public offer by the developer operating under the brand «XDEVS» (hereinafter — the Contractor) regarding software development, scripts, and digital content services.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">1.2.</span> Acceptance of this offer is confirmed by the Client making a prepayment or submitting an order form via the official website.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s1.title">1. General provisions</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">1.1.</span> <span data-i18n="offer.s1.1">This document is a public offer by the developer operating under the brand «XDEVS» (hereinafter — the Contractor) regarding software development, scripts, and digital content services.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">1.2.</span> <span data-i18n="offer.s1.2">Acceptance of this offer is confirmed by the Client making a prepayment or submitting an order form via the official website.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">2. Subject of the agreement</h2>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.1.</span> The Contractor undertakes to provide IT development services according to the agreed Technical Specification (TS) or order details, and the Client undertakes to accept and pay for these services.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s2.title">2. Subject of the agreement</h2>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">2.1.</span> <span data-i18n="offer.s2.1">The Contractor undertakes to provide IT development services according to the agreed Technical Specification (TS) or order details, and the Client undertakes to accept and pay for these services.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">3. Rights and obligations of the parties</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> The Contractor commits to delivering high-quality work within the agreed timeframe.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.2.</span> The Client commits to providing all necessary materials, access, and clear requirements in a timely manner.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s3.title">3. Rights and obligations of the parties</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">3.1.</span> <span data-i18n="offer.s3.1">The Contractor commits to delivering high-quality work within the agreed timeframe.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">3.2.</span> <span data-i18n="offer.s3.2">The Client commits to providing all necessary materials, access, and clear requirements in a timely manner.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">4. Service fees and payment procedure</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.1.</span> Service fees are determined according to the current pricelist: <a href="index.html" class="text-white underline decoration-dotted">xeraze.github.io/Pricelist</a>.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s4.title">4. Service fees and payment procedure</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.1.</span> <span data-i18n="offer.s4.1">Service fees are determined according to the current pricelist: </span><a href="index.html" class="text-white underline decoration-dotted" data-i18n="offer.s4.1.link">xeraze.github.io/Pricelist</a>.</p>
                 <div class="bg-white/5 border-l-2 border-white/30 rounded-r-lg p-4 mb-3">
-                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.2. Special terms.</span> Work performed by the Contractor within the non-commercial project «Sloboda Hospital [RP]» is unpaid (free of charge) at the Contractor's personal initiative. This condition does not apply to any orders from third parties.</p>
+                    <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold" data-i18n="offer.s4.2.title">4.2. Special terms.</span> <span data-i18n="offer.s4.2">Work performed by the Contractor within the non-commercial project «Sloboda Hospital [RP]» is unpaid (free of charge) at the Contractor's personal initiative. This condition does not apply to any orders from third parties.</span></p>
                 </div>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.3.</span> Work on paid orders begins only after the Client pays a prepayment of 25% of the total cost.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.4.</span> The prepayment guarantees the booking of the developer's time.</p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">4.3.</span> <span data-i18n="offer.s4.3">Work on paid orders begins only after the Client pays a prepayment of 25% of the total cost.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">4.4.</span> <span data-i18n="offer.s4.4">The prepayment guarantees the booking of the developer's time.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">5. Procedure for delivery and acceptance</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">5.1.</span> Demonstration of intermediate and final results is provided via screenshots, video recording, or the Contractor's test environment.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">5.2.</span> The Client has the right to request free revisions only if they do not contradict the originally approved Technical Specification. Any new features requested after development begins are billed separately.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s5.title">5. Procedure for delivery and acceptance</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">5.1.</span> <span data-i18n="offer.s5.1">Demonstration of intermediate and final results is provided via screenshots, video recording, or the Contractor's test environment.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">5.2.</span> <span data-i18n="offer.s5.2">The Client has the right to request free revisions only if they do not contradict the originally approved Technical Specification. Any new features requested after development begins are billed separately.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">6. Intellectual property and file transfer</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">6.1.</span> Pursuant to Articles 433 and 435 of the Civil Code of Ukraine, computer programs and source code are objects of copyright. Copyright belongs to the Contractor from the moment the work is created.</p>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">6.2.</span> The Contractor retains all economic and non-economic copyrights to the source code until the Client has paid 100% of the service fees.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">6.3.</span> Delivery of source files (.lua, .rbxl, .json, etc.) to the Client occurs only after full payment of the remaining balance (75%).</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s6.title">6. Intellectual property and file transfer</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">6.1.</span> <span data-i18n="offer.s6.1">Pursuant to Articles 433 and 435 of the Civil Code of Ukraine, computer programs and source code are objects of copyright. Copyright belongs to the Contractor from the moment the work is created.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">6.2.</span> <span data-i18n="offer.s6.2">The Contractor retains all economic and non-economic copyrights to the source code until the Client has paid 100% of the service fees.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">6.3.</span> <span data-i18n="offer.s6.3">Delivery of source files (.lua, .rbxl, .json, etc.) to the Client occurs only after full payment of the remaining balance (75%).</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">7. Liability and rights protection</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">7.1.</span> The Client may not present the received code as their own (plagiarism) or resell it to third parties without the Contractor's explicit written consent.</p>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">7.2.</span> If the product is used without full payment, the Contractor reserves the right to send a DMCA Notice to platform administrators (Roblox, Discord, GitHub) to have the content blocked.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">7.3.</span> The Contractor is not liable for product malfunctions caused by the Client's unauthorized modifications to the source code after delivery, or by failures of third-party platforms.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s7.title">7. Liability and rights protection</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">7.1.</span> <span data-i18n="offer.s7.1">The Client may not present the received code as their own (plagiarism) or resell it to third parties without the Contractor's explicit written consent.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">7.2.</span> <span data-i18n="offer.s7.2">If the product is used without full payment, the Contractor reserves the right to send a DMCA Notice to platform administrators (Roblox, Discord, GitHub) to have the content blocked.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">7.3.</span> <span data-i18n="offer.s7.3">The Contractor is not liable for product malfunctions caused by the Client's unauthorized modifications to the source code after delivery, or by failures of third-party platforms.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">8. Force Majeure</h2>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">8.1.</span> The Parties are released from liability for partial or complete failure to fulfill their obligations due to circumstances of insuperable force (natural disasters, global internet outages, or platform blockages making work impossible).</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s8.title">8. Force Majeure</h2>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">8.1.</span> <span data-i18n="offer.s8.1">The Parties are released from liability for partial or complete failure to fulfill their obligations due to circumstances of insuperable force (natural disasters, global internet outages, or platform blockages making work impossible).</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">9. Modification and termination of the agreement</h2>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">9.1.</span> The agreement may be terminated by mutual consent of the Parties.</p>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">9.2.</span> If the Client unilaterally cancels the project after development has begun, the 25% prepayment is strictly non-refundable, as it covers the time and resources already expended by the Contractor.</p>
-                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">9.3.</span> If the Client fails to respond to the Contractor's messages for more than 14 calendar days without prior notice, the Contractor has the right to unilaterally freeze the project or terminate the agreement without refunding the prepayment.</p>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">9.4.</span> If the Contractor is unable to complete the project due to their own fault or technical limitations not specified in advance, the Contractor is obliged to refund 100% of the received funds to the Client.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s9.title">9. Modification and termination of the agreement</h2>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">9.1.</span> <span data-i18n="offer.s9.1">The agreement may be terminated by mutual consent of the Parties.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">9.2.</span> <span data-i18n="offer.s9.2">If the Client unilaterally cancels the project after development has begun, the 25% prepayment is strictly non-refundable, as it covers the time and resources already expended by the Contractor.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-3"><span class="text-white font-bold">9.3.</span> <span data-i18n="offer.s9.3">If the Client fails to respond to the Contractor's messages for more than 14 calendar days without prior notice, the Contractor has the right to unilaterally freeze the project or terminate the agreement without refunding the prepayment.</span></p>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">9.4.</span> <span data-i18n="offer.s9.4">If the Contractor is unable to complete the project due to their own fault or technical limitations not specified in advance, the Contractor is obliged to refund 100% of the received funds to the Client.</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">10. Dispute resolution</h2>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">10.1.</span> All disputes and disagreements arising from this agreement shall be resolved through negotiations via the official XDEVS communication channels (Discord or ticket systems).</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s10.title">10. Dispute resolution</h2>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">10.1.</span> <span data-i18n="offer.s10.1">All disputes and disagreements arising from this agreement shall be resolved through negotiations via the official XDEVS communication channels (Discord or ticket systems).</span></p>
             </div>
 
             <div class="clause mb-6">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">11. Final provisions</h2>
-                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">11.1.</span> The Contractor reserves the right to modify this public offer at any time without prior notice. The new version takes effect immediately upon publication on the website.</p>
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3" data-i18n="offer.s11.title">11. Final provisions</h2>
+                <p class="text-sm text-gray-300 leading-relaxed"><span class="text-white font-bold">11.1.</span> <span data-i18n="offer.s11.1">The Contractor reserves the right to modify this public offer at any time without prior notice. The new version takes effect immediately upon publication on the website.</span></p>
             </div>
 
             <div class="clause flex items-center gap-3 py-6 text-gray-600 text-xs uppercase tracking-widest">
                 <div class="h-px bg-white/10 flex-1"></div>
-                <span><i class="fas fa-circle-check mr-1"></i> End of document</span>
+                <span><i class="fas fa-circle-check mr-1"></i> <span data-i18n="offer.end">End of document</span></span>
                 <div class="h-px bg-white/10 flex-1"></div>
             </div>
         </div>
 
         <div class="legal-footer flex items-center justify-between gap-4">
             <div class="flex items-center gap-2 text-[11px] text-gray-500 font-mono" id="offer-hint">
-                <i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document
+                <i class="fas fa-arrow-down animate-bounce"></i> <span data-i18n="offer.scroll">Scroll to the end of the document</span>
             </div>
             <a id="btn-back-pricelist" href="index.html" aria-disabled="true" class="legal-footer-btn glass-card border-white/20 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-2 pointer-events-none opacity-35">
-                <span id="btn-back-label">Back to pricelist</span>
+                <span id="btn-back-label" data-i18n="offer.back">Back to pricelist</span>
                 <svg class="timer-ring hidden" id="timer-ring-offer" viewBox="0 0 24 24"><circle class="bg" cx="12" cy="12" r="10"/><circle class="fg" cx="12" cy="12" r="10" stroke-dasharray="62.8" stroke-dashoffset="62.8"/></svg>
             </a>
         </div>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/legal-gate.js"></script>
     <script>
         (function () {
-            const btn = document.getElementById('btn-back-pricelist');
-            const scrollEl = document.getElementById('scroll-offer');
+            var STORAGE_KEY = 'xdevs_lang';
+
+            function getLang() {
+                try {
+                    var lang = localStorage.getItem(STORAGE_KEY);
+                    if (lang === 'uk') return 'ua';
+                    return lang || 'en';
+                } catch (e) { return 'en'; }
+            }
+
+            var langBtn = document.getElementById('lang-btn');
+            var langDropdown = document.getElementById('lang-dropdown');
+            var langCurrent = document.getElementById('lang-current');
+
+            langCurrent.textContent = getLang().toUpperCase();
+
+            if (langBtn && langDropdown) {
+                langBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    langDropdown.classList.toggle('hidden');
+                });
+                document.addEventListener('click', function () {
+                    langDropdown.classList.add('hidden');
+                });
+                langDropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+
+            document.querySelectorAll('.lang-option').forEach(function (opt) {
+                opt.addEventListener('click', function () {
+                    var newLang = this.getAttribute('data-lang');
+                    try { localStorage.setItem(STORAGE_KEY, newLang); } catch (e) {}
+                    window.XDEVS_i18n.applyLang(newLang);
+                    langCurrent.textContent = newLang.toUpperCase();
+                    langDropdown.classList.add('hidden');
+                });
+            });
+
+            var btn = document.getElementById('btn-back-pricelist');
+            var scrollEl = document.getElementById('scroll-offer');
             window.XDEVS.initClauseReveal(scrollEl);
 
             Object.defineProperty(btn, 'disabled', {
-                get() { return btn.getAttribute('aria-disabled') === 'true'; },
-                set(v) {
+                get: function () { return btn.getAttribute('aria-disabled') === 'true'; },
+                set: function (v) {
                     if (v) {
                         btn.setAttribute('aria-disabled', 'true');
                         btn.classList.add('pointer-events-none', 'opacity-35');

@@ -1,10 +1,11 @@
 (function () {
     const WEBHOOK_PROXY_URL = 'https://xdevs-webhook.xeraze-official.workers.dev';
     const LEGAL_SEEN_KEY = 'xdevs_legal_seen';
-    const REQUIRED_FIELDS = [
-        'f-customer', 'f-product-name', 'f-product-short',
-        'f-total-cost', 'f-prepay-amount', 'f-prepay-done', 'f-remainder'
+    const BASE_REQUIRED_FIELDS = [
+        'f-customer', 'f-service', 'f-product-name', 'f-product-short',
+        'f-total-cost', 'f-payment-type'
     ];
+    const PARTIAL_REQUIRED_FIELDS = ['f-prepay-amount', 'f-prepay-done', 'f-remainder'];
 
     let gateReady = false;
     let checkboxChecked = false;
@@ -33,7 +34,7 @@
 
     window.copyDiscord = function () {
         navigator.clipboard.writeText('xeraze.').then(() => {
-            showToast('Discord username copied!');
+            showToast(window.XDEVS_i18n.t('toast.copied'));
         });
     };
 
@@ -255,10 +256,21 @@
         if (msg) msg.classList.add('show');
     }
 
+    function getRequiredFields() {
+        const fields = BASE_REQUIRED_FIELDS.slice();
+        const paymentType = document.getElementById('f-payment-type').value;
+        if (paymentType === 'partial') {
+            fields.push(...PARTIAL_REQUIRED_FIELDS);
+        }
+        return fields;
+    }
+
     function validateForm() {
         let valid = true;
-        REQUIRED_FIELDS.forEach((id) => {
-            const val = document.getElementById(id).value.trim();
+        getRequiredFields().forEach((id) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const val = el.value.trim();
             if (!val) {
                 setFieldError(id);
                 valid = false;
@@ -268,6 +280,19 @@
         });
         return valid;
     }
+
+    const paymentTypeSelect = document.getElementById('f-payment-type');
+    const partialFields = document.getElementById('payment-partial-fields');
+
+    function togglePaymentFields() {
+        const isPartial = paymentTypeSelect.value === 'partial';
+        partialFields.classList.toggle('hidden', !isPartial);
+        if (!isPartial) {
+            ['f-prepay-amount', 'f-prepay-done', 'f-remainder'].forEach(clearFieldError);
+        }
+    }
+
+    paymentTypeSelect.addEventListener('change', togglePaymentFields);
 
     function openOrder() {
         closeOfferQuiet();
@@ -337,24 +362,42 @@
 
     function buildDiscordPayload() {
         const c = window._xdevsContract || { number: '—', date: '—' };
-        const val = (id) => document.getElementById(id).value.trim() || '—';
+        const val = (id) => document.getElementById(id).value.trim() || 'Не указано';
+        const paymentType = document.getElementById('f-payment-type').value;
+        const paymentTypeLabels = {
+            full: 'Полная предоплата (100%)',
+            partial: 'Частичная предоплата (25%)',
+            after: 'Оплата после завершения',
+            task: 'Оплата за каждую задачу',
+            weekly: 'Еженедельно',
+            monthly: 'Ежемесячно'
+        };
+
+        const fields = [
+            { name: 'Дата', value: c.date, inline: true },
+            { name: 'Клиент', value: val('f-customer'), inline: true },
+            { name: 'Услуга', value: val('f-service'), inline: true },
+            { name: 'Название продукта', value: val('f-product-name') },
+            { name: 'Краткое описание', value: val('f-product-short') },
+            { name: 'Подробное описание', value: val('f-product-long') },
+            { name: 'Дедлайн', value: val('f-deadline'), inline: true },
+            { name: 'Общая стоимость', value: val('f-total-cost'), inline: true },
+            { name: 'Формат оплаты', value: paymentTypeLabels[paymentType] || val('f-payment-type'), inline: true },
+        ];
+
+        if (paymentType === 'partial') {
+            fields.push(
+                { name: 'Предоплата', value: val('f-prepay-amount'), inline: true },
+                { name: 'Предоплата оплачена?', value: val('f-prepay-done'), inline: true },
+                { name: 'Остаток', value: val('f-remainder'), inline: true },
+            );
+        }
+
         return {
             embeds: [{
-                title: 'New order № ' + c.number,
+                title: 'Новый заказ № ' + c.number,
                 color: 0xffffff,
-                fields: [
-                    { name: 'Date', value: c.date, inline: true },
-                    { name: 'Client', value: val('f-customer'), inline: true },
-                    { name: 'Product name', value: val('f-product-name') },
-                    { name: 'Short description', value: val('f-product-short') },
-                    { name: 'Detailed description', value: val('f-product-long') },
-                    { name: 'Deadline', value: val('f-deadline'), inline: true },
-                    { name: 'Total cost', value: val('f-total-cost'), inline: true },
-                    { name: 'Prepayment (25%)', value: val('f-prepay-amount'), inline: true },
-                    { name: 'Prepayment paid?', value: val('f-prepay-done'), inline: true },
-                    { name: 'Remainder (75%)', value: val('f-remainder'), inline: true },
-                    { name: 'Offer agreement', value: 'Accepted via checkbox (linked Offer page)' }
-                ],
+                fields: fields,
                 footer: { text: 'XDEVS Legal — Order Contract' },
                 timestamp: new Date().toISOString()
             }]
@@ -377,8 +420,9 @@
         validateSubmitAvailability();
     });
 
-    REQUIRED_FIELDS.forEach((id) => {
+    getRequiredFields().forEach((id) => {
         const el = document.getElementById(id);
+        if (!el) return;
         el.addEventListener('input', () => clearFieldError(id));
         el.addEventListener('change', () => clearFieldError(id));
     });
@@ -421,4 +465,59 @@
     });
 
     document.body.style.overflow = 'hidden';
+
+    (function initSchedule() {
+        var clockDev = document.getElementById('clock-dev');
+        var clockDevDate = document.getElementById('clock-dev-date');
+        var clockUser = document.getElementById('clock-user');
+        var clockUserDate = document.getElementById('clock-user-date');
+        var scheduleDays = document.getElementById('schedule-days');
+        if (!clockDev || !clockUser) return;
+
+        var devTz = 'Europe/Moscow';
+
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function formatTime(date, tz) {
+            var h = parseInt(date.toLocaleString('en-US', { hour: 'numeric', hour12: false, timeZone: tz }));
+            var m = parseInt(date.toLocaleString('en-US', { minute: 'numeric', timeZone: tz }));
+            var s = parseInt(date.toLocaleString('en-US', { second: 'numeric', timeZone: tz }));
+            return pad(h) + ':' + pad(m) + ':' + pad(s);
+        }
+
+        function formatDate(date, tz) {
+            return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', timeZone: tz });
+        }
+
+        function highlightDay() {
+            var now = new Date();
+            var devNow = new Date(now.toLocaleString('en-US', { timeZone: devTz }));
+            var devDayIdx = devNow.getDay();
+            var spans = scheduleDays.querySelectorAll('span');
+            var dayMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+            spans.forEach(function (span) {
+                var key = span.getAttribute('data-i18n');
+                var dayName = key.replace('schedule.', '');
+                var idx = dayMap[dayName];
+                if (idx === devDayIdx) {
+                    span.classList.add('ring-1', 'ring-white/40');
+                } else {
+                    span.classList.remove('ring-1', 'ring-white/40');
+                }
+            });
+        }
+
+        function update() {
+            var now = new Date();
+            var userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            clockDev.textContent = formatTime(now, devTz);
+            clockDevDate.textContent = formatDate(now, devTz);
+            clockUser.textContent = formatTime(now, userTz);
+            clockUserDate.textContent = formatDate(now, userTz);
+            highlightDay();
+        }
+
+        update();
+        setInterval(update, 1000);
+    })();
 })();

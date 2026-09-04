@@ -27,7 +27,7 @@
         ring.classList.add('hidden');
         ring.querySelector('.fg').style.strokeDashoffset = String(CIRCUMFERENCE);
         label.textContent = doneLabel;
-        hint.innerHTML = '<i class="fas fa-arrow-down animate-bounce"></i> Scroll to the end of the document';
+        hint.innerHTML = '<i class="fas fa-arrow-down animate-bounce"></i> ' + (window.XDEVS_i18n ? window.XDEVS_i18n.t('offer.scroll') : 'Scroll to the end of the document');
 
         function getRatio() {
             const scrollable = scrollEl.scrollHeight - scrollEl.clientHeight;
@@ -45,7 +45,7 @@
 
             if (!reachedBottom && ratio >= REQUIRED_SCROLL_THRESHOLD) {
                 reachedBottom = true;
-                hint.innerHTML = '<i class="fas fa-hourglass-half"></i> Please wait, verifying document...';
+                hint.innerHTML = '<i class="fas fa-hourglass-half"></i> ' + (window.XDEVS_i18n ? window.XDEVS_i18n.t('offer.verifying') : 'Please wait, verifying document...');
                 startWaitTimer();
             }
         }
@@ -68,7 +68,7 @@
                     unlocked = true;
                     btn.disabled = false;
                     ring.classList.add('hidden');
-                    hint.innerHTML = '<i class="fas fa-check text-green-400"></i> Document read';
+                    hint.innerHTML = '<i class="fas fa-check text-green-400"></i> ' + (window.XDEVS_i18n ? window.XDEVS_i18n.t('offer.document_read') : 'Document read');
                     if (onReady) onReady();
                 }
             }, 1000);
@@ -79,7 +79,7 @@
             const ratio = getRatio();
             if (ratio < 0 && scrollEl.scrollHeight > 40) {
                 reachedBottom = true;
-                hint.innerHTML = '<i class="fas fa-hourglass-half"></i> Please wait, verifying document...';
+                hint.innerHTML = '<i class="fas fa-hourglass-half"></i> ' + (window.XDEVS_i18n ? window.XDEVS_i18n.t('offer.verifying') : 'Please wait, verifying document...');
                 startWaitTimer();
             } else {
                 onScroll();
