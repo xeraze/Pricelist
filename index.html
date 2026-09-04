@@ -353,11 +353,6 @@
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 glass-card px-6 py-3 rounded-full flex items-center gap-3 border-white/20">
-        <i class="fas fa-check-circle text-white"></i>
-        <span class="font-bold text-sm tracking-wide" id="toast-text">Discord username copied!</span>
-    </div>
-
     <nav class="fixed w-full z-50 glass-card border-x-0 border-t-0 border-b border-white/5 px-4 md:px-6 py-3 md:py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="index.html" id="nav-brand" class="font-heading font-black text-xl md:text-2xl tracking-tighter flex items-center gap-2 md:gap-3 opacity-0">
@@ -483,6 +478,7 @@
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 text-sm text-gray-300 flex items-start gap-4">
                 <i class="fas fa-info-circle text-white mt-1 text-lg"></i>
                 <div>
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm" data-i18n="discord.bots">Discord Bots</h4>
                     <p data-i18n-html="discord.bots.desc">Hand-written bots for Discord. From simple command bots to complex systems with databases and API integrations.</p>
                 </div>
             </div>
@@ -534,7 +530,13 @@
                 <div class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center text-xl"><i class="fab fa-telegram"></i></div>
                 <h2 class="text-3xl font-heading font-black uppercase tracking-tight" data-i18n="telegram.title">III. Telegram Development</h2>
             </div>
-            <p class="text-sm text-gray-400 mb-8" data-i18n="telegram.channels.desc">Setup and automation of Telegram channels and groups. Content scheduling, auto-posting, subscriber management, and integrations.</p>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8 text-sm text-gray-300 flex items-start gap-4">
+                <i class="fas fa-info-circle text-white mt-1 text-lg"></i>
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm" data-i18n="telegram.channels">Telegram Channels</h4>
+                    <p data-i18n="telegram.channels.desc">Setup and automation of Telegram channels and groups. Content scheduling, auto-posting, subscriber management, and integrations.</p>
+                </div>
+            </div>
 
             <h3 class="text-lg font-bold uppercase tracking-widest text-gray-300 mb-4 flex items-center gap-2"><i class="fas fa-bullhorn text-white/60"></i> <span data-i18n="telegram.channels">Telegram Channels</span></h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -568,6 +570,7 @@
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6 text-sm text-gray-300 flex items-start gap-4">
                 <i class="fas fa-info-circle text-white mt-1 text-lg"></i>
                 <div>
+                    <h4 class="font-bold text-white uppercase tracking-widest mb-2 text-sm" data-i18n="telegram.bots">Telegram Bots</h4>
                     <p data-i18n-html="telegram.bots.desc">Hand-written bots for Telegram. From simple inline bots to complex systems with databases and webhooks.</p>
                 </div>
             </div>

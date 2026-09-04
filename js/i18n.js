@@ -324,7 +324,7 @@ const TRANSLATIONS = {
       constructors: "Веб-страница",
       "constructors.desc":
         "Простая рукописная страница. HTML, CSS, минимальный JS. Чистая вёрстка, быстрая загрузка, готова к деплою.",
-      "constructors.code": "Сайт",
+      "constructors.code": "Веб-сайт",
       "constructors.code.desc":
         "Многостраничный сайт с уникальным дизайном и интерактивом. Полный HTML/CSS/JS, анимации, формы, адаптивная верстка.",
       starting: "Цена от",
@@ -368,7 +368,7 @@ const TRANSLATIONS = {
       popular: "Самый популярный",
     },
     telegram: {
-      title: "III. Разработка Telegram",
+      title: "III. Telegram Разработка",
       channels: "Telegram Каналы",
       "channels.desc":
         "Настройка и автоматизация Telegram каналов и групп. Планирование контента, автопубликация, управление подписчиками и интеграции.",
@@ -482,7 +482,7 @@ const TRANSLATIONS = {
       service: "Услуга",
       "service.select": "Выберите услугу...",
       "service.web.page": "Веб — Веб-страница",
-      "service.web.site": "Веб — ВебСайт",
+      "service.web.site": "Веб — Веб-сайт",
       "service.web.portal": "Веб — Веб-портал",
       "service.discord.server": "Discord — Настройка сервера",
       "service.discord.bot.simple": "Discord — Простой бот",
@@ -626,7 +626,7 @@ const TRANSLATIONS = {
       constructors: "Веб-сторінка",
       "constructors.desc":
         "Проста рукописна сторінка. HTML, CSS, мінімальний JS. Чиста верстка, швидке завантаження, готова до деплою.",
-      "constructors.code": "Сайт",
+      "constructors.code": "Веб-сайт",
       "constructors.code.desc":
         "Багатосторінковий сайт з унікальним дизайном та інтерактивом. Повний HTML/CSS/JS, анімації, форми, адаптивний макет.",
       starting: "Ціна від",
@@ -636,7 +636,7 @@ const TRANSLATIONS = {
       popular: "Найпопулярніший",
     },
     discord: {
-      title: "II. Розробка Discord",
+      title: "II. Discord Розробка",
       servers: "Discord Сервери",
       "servers.desc":
         "Налаштування публічних ботів та повна конфігурація Discord сервера (канали, ролі, права, автомодерація, емодзі, стікери та багато іншого) входять у вартість пакетів, але їх можна замовити окремо абсолютно безкоштовно (наприклад, ви можете безкоштовно замовити налаштування каналів та ролей окремо (2 налаштування), але щойно ви перевищите цей безкоштовний ліміт, за кожне нове налаштування вам доведеться платити чверть від початкової вартості повного налаштування сервера Discord).",
@@ -670,7 +670,7 @@ const TRANSLATIONS = {
       popular: "Найпопулярніший",
     },
     telegram: {
-      title: "III. Розробка Telegram",
+      title: "III. Telegram Розробка",
       channels: "Telegram Канали",
       "channels.desc":
         "Налаштування та автоматизація Telegram каналів та груп. Планування контенту, автопублікація, управління підписниками та інтеграції.",
