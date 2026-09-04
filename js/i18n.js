@@ -35,7 +35,7 @@ const TRANSLATIONS = {
       title: "II. Discord Development",
       servers: "Discord Servers",
       "servers.desc":
-        "Configuration of public bots and full Discord server setup (channels, roles, permissions, automated moderation, emojis, stickers, travel guide, and much more) are included by default in these packages, but they can also be ordered separately absolutely for free.",
+        "Configuration of public bots and full Discord server setup (channels, roles, permissions, automated moderation, emojis, stickers, travel guide, and much more) are included by default in these packages, but they can also be ordered separately absolutely for free (for example, you can order free setup for channels and roles separately (2 settings) at no cost, but once you exceed this free limit, you will need to pay a quarter from the initial cost of a full Discord server setup for each new setup).",
       creation: "Creation from Scratch",
       "creation.desc":
         "Full development starting from empty/new server to fully functional and secure community hub, with user adaptation system and aesthetic design.",
@@ -340,7 +340,7 @@ const TRANSLATIONS = {
       title: "II. Разработка Discord",
       servers: "Discord Серверы",
       "servers.desc":
-        "Настройка публичных ботов и полная конфигурация Discord сервера (каналы, роли, права, автомодерация, эмодзи, стикеры и многое другое) входят в стоимость пакетов, но могут быть заказаны отдельно абсолютно бесплатно.",
+        "Настройка публичных ботов и полная конфигурация Discord сервера (каналы, роли, права, автомодерация, эмодзи, стикеры и многое другое) входят в стоимость пакетов, но могут быть заказаны отдельно абсолютно бесплатно (например, вы можете бесплатно заказать настройку каналов и ролей по отдельности (2 настройки), но как только вы превысите этот бесплатный лимит, за каждую новую настройку вам придётся платить четверть от первоначальной стоимости полной настройки сервера Discord).",
       creation: "Создание с нуля",
       "creation.desc":
         "Полная разработка с нуля до функционального и безопасного сообщества с системой адаптации, эстетическим дизайном и тому подобным.",
@@ -644,7 +644,7 @@ const TRANSLATIONS = {
       title: "II. Розробка Discord",
       servers: "Discord Сервери",
       "servers.desc":
-        "Налаштування публічних ботів та повна конфігурація Discord сервера (канали, ролі, права, автомодерація, емодзі, стікери та багато іншого) входять у вартість пакетів, але їх можна замовити окремо абсолютно безкоштовно.",
+        "Налаштування публічних ботів та повна конфігурація Discord сервера (канали, ролі, права, автомодерація, емодзі, стікери та багато іншого) входять у вартість пакетів, але їх можна замовити окремо абсолютно безкоштовно (наприклад, ви можете безкоштовно замовити налаштування каналів та ролей окремо (2 налаштування), але щойно ви перевищите цей безкоштовний ліміт, за кожне нове налаштування вам доведеться платити чверть від початкової вартості повного налаштування сервера Discord).",
       creation: "Створення з нуля",
       "creation.desc":
         "Повна розробка від пустого сервера до функціонального та безпечної спільноти з системою адаптації, естетичним дизайном і тому подібним.",
