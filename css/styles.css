@@ -77,7 +77,7 @@ body {
     gap: 0.75rem;
     font-family: 'Outfit', sans-serif;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 2rem;
     letter-spacing: -0.05em;
     line-height: 1;
     color: #fff;
@@ -116,18 +116,19 @@ body {
 }
 .loader-text {
     font-family: 'Space Grotesk', monospace;
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 600;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #666;
+    color: #888;
     min-height: 16px;
 }
 .loader-bar-track {
-    width: 180px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.08);
+    width: 200px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    border-radius: 2px;
+    border-radius: 3px;
 }
 .loader-bar-fill {
     height: 100%;

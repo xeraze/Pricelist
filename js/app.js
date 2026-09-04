@@ -109,12 +109,6 @@
         animate();
     }
 
-    const loadingMessages = [
-        'Initializing...',
-        'Loading interface...',
-        'Preparing workspace...',
-        'Almost ready...'
-    ];
     let loadProgress = 0;
     let msgIndex = 0;
     const loaderBar = document.getElementById('loader-bar');
@@ -148,23 +142,71 @@
         openOffer({ firstVisit: true });
     }
 
-    const loadInterval = setInterval(() => {
-        loadProgress += Math.random() * 20 + 10;
-        if (loadProgress >= 100) {
-            loadProgress = 100;
-            clearInterval(loadInterval);
-            loaderBar.style.width = '100%';
-            loaderText.textContent = 'Ready';
-            setTimeout(() => flyLogoToNav(afterLoadingComplete), 250);
-            return;
-        }
+    const loadingMessages = [
+        'Initializing...',
+        'Loading interface...',
+        'Preparing workspace...',
+        'Almost ready...'
+    ];
+
+    function setProgress(pct) {
+        loadProgress = Math.min(pct, 100);
         loaderBar.style.width = loadProgress + '%';
         const idx = Math.min(Math.floor(loadProgress / 26), loadingMessages.length - 1);
         if (idx !== msgIndex) {
             msgIndex = idx;
             loaderText.textContent = loadingMessages[idx];
         }
-    }, 220);
+        if (loadProgress >= 100) {
+            loaderText.textContent = 'Ready';
+            setTimeout(() => flyLogoToNav(afterLoadingComplete), 250);
+        }
+    }
+
+    let imageCount = 0;
+    let imagesLoaded = 0;
+    const images = document.querySelectorAll('img');
+    imageCount = images.length;
+    if (imageCount === 0) setProgress(30);
+
+    images.forEach(img => {
+        if (img.complete) {
+            imagesLoaded++;
+        } else {
+            img.addEventListener('load', () => { imagesLoaded++; });
+            img.addEventListener('error', () => { imagesLoaded++; });
+        }
+    });
+
+    const scriptTags = document.querySelectorAll('script[src]');
+    let scriptsLoaded = 0;
+    const totalScripts = scriptTags.length;
+
+    scriptTags.forEach(s => {
+        s.addEventListener('load', () => { scriptsLoaded++; });
+        s.addEventListener('error', () => { scriptsLoaded++; });
+    });
+
+    function updateProgress() {
+        if (loadProgress >= 100) return;
+        const imgPct = imageCount > 0 ? (imagesLoaded / imageCount) * 40 : 40;
+        const scriptPct = totalScripts > 0 ? (scriptsLoaded / totalScripts) * 30 : 30;
+        const basePct = 30;
+        const target = basePct + imgPct + scriptPct;
+        if (target > loadProgress) {
+            setProgress(target);
+        }
+    }
+
+    const progressInterval = setInterval(() => {
+        updateProgress();
+        if (loadProgress >= 100) clearInterval(progressInterval);
+    }, 100);
+
+    window.addEventListener('load', () => {
+        clearInterval(progressInterval);
+        setProgress(100);
+    });
 
     const offerOverlay = document.getElementById('offer-overlay');
     const btnCloseOffer = document.getElementById('btn-close-offer');
@@ -398,7 +440,7 @@
                 title: 'Новый заказ № ' + c.number,
                 color: 0xffffff,
                 fields: fields,
-                footer: { text: 'XDEVS Legal — Order Contract' },
+                footer: { text: 'XDEVS — Order Contract' },
                 timestamp: new Date().toISOString()
             }]
         };
