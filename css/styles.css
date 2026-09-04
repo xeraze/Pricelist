@@ -414,3 +414,15 @@ select.field-input option {
 #schedule-days span.ring-1 {
     background: rgba(255, 255, 255, 0.15);
 }
+@media (max-width: 640px) {
+    #schedule-widget .text-2xl {
+        font-size: 1.25rem;
+    }
+    #schedule-days {
+        gap: 0.375rem;
+    }
+    #schedule-days span {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.625rem;
+    }
+}

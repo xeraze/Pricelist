@@ -159,44 +159,13 @@
     <script src="js/legal-gate.js"></script>
     <script>
         (function () {
-            var STORAGE_KEY = 'xdevs_lang';
-
-            function getLang() {
-                try {
-                    var lang = localStorage.getItem(STORAGE_KEY);
-                    if (lang === 'uk') return 'ua';
-                    return lang || 'en';
-                } catch (e) { return 'en'; }
-            }
-
-            var langBtn = document.getElementById('lang-btn');
-            var langDropdown = document.getElementById('lang-dropdown');
             var langCurrent = document.getElementById('lang-current');
-
-            langCurrent.textContent = getLang().toUpperCase();
-
-            if (langBtn && langDropdown) {
-                langBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    langDropdown.classList.toggle('hidden');
-                });
-                document.addEventListener('click', function () {
-                    langDropdown.classList.add('hidden');
-                });
-                langDropdown.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                });
+            if (langCurrent) {
+                var saved = 'en';
+                try { saved = localStorage.getItem('xdevs_lang') || 'en'; } catch (e) {}
+                if (saved === 'uk') saved = 'ua';
+                langCurrent.textContent = saved.toUpperCase();
             }
-
-            document.querySelectorAll('.lang-option').forEach(function (opt) {
-                opt.addEventListener('click', function () {
-                    var newLang = this.getAttribute('data-lang');
-                    try { localStorage.setItem(STORAGE_KEY, newLang); } catch (e) {}
-                    window.XDEVS_i18n.applyLang(newLang);
-                    langCurrent.textContent = newLang.toUpperCase();
-                    langDropdown.classList.add('hidden');
-                });
-            });
 
             var btn = document.getElementById('btn-back-pricelist');
             var scrollEl = document.getElementById('scroll-offer');
